@@ -18,10 +18,10 @@ class OrderService
      * 名  称 : orderShow()
      * 功  能 : 订单信息操作接口逻辑
      * 变  量 : --------------------------------------
-     * 输  入 : $get['UserToken'] => '用户UserToken身份标识';
-     * 输  入 : $get['OrderType'] => 'OrderType = no;     获取所有订单信息';
-     * 输  入 : $get['OrderType'] => 'OrderType = true;   获取以结算订单信息';
-     * 输  入 : $get['OrderType'] => 'OrderType = false;  获取未结算订单信息';
+     * 输  入 : $get['UserToken'] => '用户UserToken身份标识
+     * 输  入 : $get['OrderType'] => 'OrderType = 0;  获取所有订单信息';
+     * 输  入 : $get['OrderType'] => 'OrderType = 1;  获取以结算订单信息';
+     * 输  入 : $get['OrderType'] => 'OrderType = 2;  获取未结算订单信息';';
      * 输  入 : $get['OrderNumb'] => '现已获取到的订单数量，没有输入0';
      * 输  出 : ['msg'=>'success','data'=>'返回数据']
      * 创  建 : 2018/08/30 10:04
@@ -38,9 +38,9 @@ class OrderService
 
         // 验证订单类型是否正确
         if(
-            ($get['OrderType'] !== 'no')   &&
-            ($get['OrderType'] !== 'true') &&
-            ($get['OrderType'] !== 'false')
+            ($get['OrderType'] != '0') &&
+            ($get['OrderType'] != '1') &&
+            ($get['OrderType'] != '2')
         ){
             return ['msg'=>'error','data'=>'请正确发送订单获取状态'];
         }

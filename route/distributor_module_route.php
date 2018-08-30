@@ -30,3 +30,14 @@ Route::get(
     ':v/distributor_module/order_route',
     'distributor_module/:v.controller.OrderController/orderGet'
 );
+
+// ----- 收益信息接口 -----
+
+/**
+ * 传值方式 : GET
+ * 路由功能 : 收益信息操作
+ */
+Route::get(
+    ':v/distributor_module/profit_route',
+    'distributor_module/:v.controller.ProfitController/profitGet'
+);
