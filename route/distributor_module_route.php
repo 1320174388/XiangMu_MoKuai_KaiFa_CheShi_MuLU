@@ -18,6 +18,22 @@ Route::post(
     ':v/distributor_module/distributor_route',
     'distributor_module/:v.controller.DistributorController/distributorPost'
 );
+/**
+ * 传值方式 : POST
+ * 路由功能 : 注册推客员接口
+ */
+Route::post(
+    ':v/distributor_module/promoter_route',
+    'distributor_module/:v.controller.DistributorController/promoterPost'
+);
+/**
+ * 传值方式 : PUT
+ * 路由功能 : 修改推客员信息接口
+ */
+Route::put(
+    ':v/distributor_module/promoter_route',
+    'distributor_module/:v.controller.DistributorController/promoterPut'
+);
 
 
 // ----- 订单接口路由 -----
