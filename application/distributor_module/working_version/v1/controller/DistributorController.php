@@ -86,4 +86,28 @@ class DistributorController extends Controller
         // 处理函数返回值
         return \RSD::wxReponse($res,'S','请求成功');
     }
+    /**
+     * 名  称 : distributorGet()
+     * 功  能 : 获取分销商数据接口
+     * 变  量 : --------------------------------------
+     * 输  入 : (srting) $user_token  =>  `用户token`
+     * 输  入 : (srting) $type   =>  `获取分销商类型`
+     * 输  入 : (int)    $num         =>  `分页页码`
+     * 输  出 : {"errNum":0,"retMsg":"提示信息","retData":true}
+     * 创  建 : 2018/08/30 13:06
+     */
+    public function distributorGet(\think\Request $request)
+    {
+        // 实例化Service层逻辑类
+        $distributorService = new DistributorService();
+
+        // 获取传入参数
+        $get = $request->get();
+
+        // 执行Service逻辑
+        $res = $distributorService->distributorGet($get);
+
+        // 处理函数返回值
+        return \RSD::wxReponse($res,'S','请求成功');
+    }
 }

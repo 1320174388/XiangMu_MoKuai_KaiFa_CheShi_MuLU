@@ -81,4 +81,41 @@ class DistributorDao implements DistributorInterface
         //返回结果
         return \RSD::wxReponse($res,'M',$res,'没有数据');
     }
+    /**
+     * 名  称 : queryAll()
+     * 功  能 : 查询所有分销成员信息
+     * 变  量 : --------------------------------------
+     * 输  入 : (int) $num          => `页码`
+     * 输  出 : {"errNum":0,"retMsg":"提示信息","retData":true}
+     * 创  建 : 2018/08/27 18:06
+     */
+    public function queryAll($num)
+    {
+        //创建模型对象
+        $opject = new DistributorModel();
+        //执行查询
+       $res = $opject->where('member_status',1)
+                    ->limit(12*$num,12)
+                    ->select();
+       //返回结果
+        return \RSD::wxReponse($res->toArray(),'M',$res,'没有数据');
+    }
+    /**
+     * 名  称 : querySon()
+     * 功  能 : 查询佣金下级分销商信息
+     * 变  量 : --------------------------------------
+     * 输  入 : (string)  $user_token     =>  `用户token标识`
+     * 输  入 : (int)     $num            => `页码`
+     * 输  出 : {"errNum":0,"retMsg":"提示信息","retData":true}
+     * 创  建 : 2018/08/27 18:06
+     */
+    public function querySon($get)
+    {
+        //创建模型对象
+        $opject = new DistributorModel();
+
+        //执行查询
+        $opject->where('parent_token',$get['user_token'])
+                ->
+    }
 }
