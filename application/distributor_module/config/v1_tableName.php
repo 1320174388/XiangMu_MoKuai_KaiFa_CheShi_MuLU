@@ -12,9 +12,13 @@ return [
     // 分销模块表
     'distribution_module' => [
         // 分销成员表
-        'distribution' => 'data_distribution_members',
+        'distribution'     => 'data_distribution_members',
         // 分销订单表
-        'OrderTables'  => 'data_distribution_orders',
+        'OrderTables'      => 'data_distribution_orders',
+        // 收益信息表
+        'ProfitTables'     => 'data_distribution_profit',
+        // 分销提现表
+        'PutforwardTables' => 'data_distribution_putforward',
     ]
 
 ];

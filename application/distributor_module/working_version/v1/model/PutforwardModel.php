@@ -1,16 +1,16 @@
 <?php
 /**
  *  版权声明 :  地老天荒科技有限公司
- *  文件名称 :  ProfitModel.php
+ *  文件名称 :  PutforwardModel.php
  *  创 建 者 :  Shi Guang Yu
- *  创建日期 :  2018/08/30 13:28
- *  文件描述 :  收益信息模型层
+ *  创建日期 :  2018/08/30 14:57
+ *  文件描述 :  提现信息模型层
  *  历史记录 :  -----------------------
  */
 namespace app\distributor_module\working_version\v1\model;
 use think\Model;
 
-class ProfitModel extends Model
+class PutforwardModel extends Model
 {
     // 设置当前模型对应的完整数据表名称
     protected $table = '';
@@ -21,6 +21,6 @@ class ProfitModel extends Model
     // 加载配置数据表名
     protected function initialize()
     {
-        $this->table = config('v1_tableName.distribution_module.ProfitTables');
+        $this->table = config('v1_tableName.distribution_module.PutforwardTables');
     }
 }

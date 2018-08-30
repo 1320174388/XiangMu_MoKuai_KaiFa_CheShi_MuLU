@@ -23,5 +23,10 @@ class ProfitDao implements ProfitInterface
     public function profitSelect($get)
     {
         // TODO :  ProfitModel 模型
+        $profitData = ProfitModel::where(
+            'user_token',$get['UserToken']
+        )->select()->toArray();
+        // TODO :  返回数据
+        return \RSD::wxReponse($profitData,'M',$profitData,'请求失败');
     }
 }

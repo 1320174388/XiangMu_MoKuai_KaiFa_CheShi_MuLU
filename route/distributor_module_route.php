@@ -57,3 +57,14 @@ Route::get(
     ':v/distributor_module/profit_route',
     'distributor_module/:v.controller.ProfitController/profitGet'
 );
+
+// ----- 提现信息接口 -----
+
+/**
+ * 传值方式 : GET
+ * 路由功能 : 提现信息操作
+ */
+Route::get(
+    ':v/distributor_module/putforward_route',
+    'distributor_module/:v.controller.PutforwardController/putforwardGet'
+);
