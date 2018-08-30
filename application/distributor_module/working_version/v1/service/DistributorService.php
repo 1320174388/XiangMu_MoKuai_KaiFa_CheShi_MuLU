@@ -167,7 +167,6 @@ class DistributorService
         if (!$validate->check($get)){
             return returnData('error',$validate->getError());
         }
-
         // 实例化Dao层数据类
         $promoterDao = new DistributorDao();
         isset($get['num']) or $get['num'] = 0;
@@ -183,11 +182,17 @@ class DistributorService
                 break;
             //获取佣金下级分销商信息
             case 'son':
-
+                //查询
+                $res = $promoterDao->querySon($get);
+                //返回结果
+                return \RSD::wxReponse($res,'D');
                 break;
             //获取推客下级分销商信息
             case 'push':
-
+                //查询
+                $res = $promoterDao->queryPush($get);
+                //返回结果
+                return \RSD::wxReponse($res,'D');
                 break;
             //返回类型错误
             default:

@@ -115,7 +115,31 @@ class DistributorDao implements DistributorInterface
         $opject = new DistributorModel();
 
         //执行查询
-        $opject->where('parent_token',$get['user_token'])
-                ->
+       $res = $opject->where(['parent_token'=>$get['user_token'],'member_status'=>0])
+                ->limit(12*$get['num'],12)
+                ->select();
+        //返回结果
+        return \RSD::wxReponse($res->toArray(),'M',$res,'没有数据');
+    }
+    /**
+     * 名  称 : queryPush()
+     * 功  能 : 查询推客下级分销商信息
+     * 变  量 : --------------------------------------
+     * 输  入 : (string)  $user_token     =>  `用户token标识`
+     * 输  入 : (int)     $num            => `页码`
+     * 输  出 : {"errNum":0,"retMsg":"提示信息","retData":true}
+     * 创  建 : 2018/08/27 18:06
+     */
+    public function queryPush($get)
+    {
+        //创建模型对象
+        $opject = new DistributorModel();
+
+        //执行查询
+        $res = $opject->where(['parent_token'=>$get['user_token'],'member_status'=>1])
+            ->limit(12*$get['num'],12)
+            ->select();
+        //返回结果
+        return \RSD::wxReponse($res->toArray(),'M',$res,'没有数据');
     }
 }
