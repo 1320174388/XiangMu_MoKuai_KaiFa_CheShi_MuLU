@@ -14,7 +14,7 @@ use app\distributor_module\working_version\v1\service\DistributorService;
 class DistributorController extends Controller
 {
     /**
-     * 名  称 : distributionPost()
+     * 名  称 : distributorPost()
      * 功  能 : 创建分销员接口
      * 变  量 : --------------------------------------
      * 输  入 : (string) $userToken       => `用户token标识`
@@ -24,7 +24,7 @@ class DistributorController extends Controller
      * 输  出 : {"errNum":0,"retMsg":"提示信息","retData":true}
      * 创  建 : 2018/08/27 18:06
      */
-    public function distributionPost(\think\Request $request)
+    public function distributorPost(\think\Request $request)
     {
         // 实例化Service层逻辑类
         $distributionService = new DistributorService();
@@ -33,9 +33,9 @@ class DistributorController extends Controller
         $post = $request->post();
 
         // 执行Service逻辑
-        $res = $distributionService->distributionAdd($post);
+        $res = $distributionService->distributorAdd($post);
 
         // 处理函数返回值
-        return \RSD::wxReponse($res,'S','');
+        return \RSD::wxReponse($res,'S','请求成功');
     }
 }
