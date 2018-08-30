@@ -21,6 +21,6 @@ class DistributorModel extends Model
     // 加载配置数据表名
     protected function initialize()
     {
-        $this->table = config('v1_tableName.distribution');
+        $this->table = config('v1_tableName.distribution_module.distribution');
     }
 }

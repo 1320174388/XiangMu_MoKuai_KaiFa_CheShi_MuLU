@@ -7,6 +7,9 @@
  *  文件描述 :  分销模块路由
  *  历史记录 :  -----------------------
  */
+
+// ----- 分销成员路由 -----
+
 /**
  * 传值方式 : POST
  * 路由功能 : 创建分销员接口
@@ -16,3 +19,14 @@ Route::post(
     'distributor_module/:v.controller.DistributorController/distributorPost'
 );
 
+
+// ----- 订单接口路由 -----
+
+/**
+ * 传值方式 : GET
+ * 路由功能 : 订单信息操作接口
+ */
+Route::get(
+    ':v/distributor_module/order_route',
+    'distributor_module/:v.controller.OrderController/orderGet'
+);

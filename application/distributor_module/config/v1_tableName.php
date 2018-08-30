@@ -9,8 +9,12 @@
  */
 
 return [
-    // 分销成员表
-    'distribution' => 'data_distribution_members',
-    // 分销订单表
-    'OrderTables' => 'data_distribution_orders',
+    // 分销模块表
+    'distribution_module' => [
+        // 分销成员表
+        'distribution' => 'data_distribution_members',
+        // 分销订单表
+        'OrderTables'  => 'data_distribution_orders',
+    ]
+
 ];

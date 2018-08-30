@@ -13,8 +13,6 @@ use app\distributor_module\working_version\v1\service\OrderService;
 
 class OrderController extends Controller
 {
-// ------ Controller控制器接代码 ------
-
     /**
      * 名  称 : orderGet()
      * 功  能 : 订单信息操作接口接口
