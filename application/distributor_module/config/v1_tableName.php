@@ -10,5 +10,7 @@
 
 return [
     // 数据表注释
-    '数据表下标' => '数据表表名'
+    '数据表下标' => '数据表表名',
+    // 分销订单表
+    'OrderTables' => 'data_distribution_orders',
 ];
