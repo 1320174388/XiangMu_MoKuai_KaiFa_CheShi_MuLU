@@ -36,7 +36,7 @@ Route::put(
 );
 /**
  * 传值方式 : GET
- * 路由功能 : 修改推客员信息接口
+ * 路由功能 : 获取分销商数据接口
  */
 Route::get(
     ':v/distributor_module/distributor_get',

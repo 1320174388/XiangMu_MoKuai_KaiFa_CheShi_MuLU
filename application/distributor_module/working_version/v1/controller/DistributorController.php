@@ -91,7 +91,7 @@ class DistributorController extends Controller
      * 功  能 : 获取分销商数据接口
      * 变  量 : --------------------------------------
      * 输  入 : (srting) $user_token  =>  `用户token`
-     * 输  入 : (srting) $type   =>  `获取分销商类型`
+     * 输  入 : (srting) $type        =>  `获取分销商类型`
      * 输  入 : (int)    $num         =>  `分页页码`
      * 输  出 : {"errNum":0,"retMsg":"提示信息","retData":true}
      * 创  建 : 2018/08/30 13:06
