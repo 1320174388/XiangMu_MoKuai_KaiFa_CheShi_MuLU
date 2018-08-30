@@ -142,4 +142,18 @@ class DistributorDao implements DistributorInterface
         //返回结果
         return \RSD::wxReponse($res->toArray(),'M',$res,'没有数据');
     }
+    /**
+     * 名  称 : querySuperior()
+     * 功  能 : 查询上级分销商信息
+     * 变  量 : --------------------------------------
+     * 输  入 : (string)  $user_token     =>  `用户token标识`
+     * 输  出 : {"errNum":0,"retMsg":"提示信息","retData":true}
+     * 创  建 : 2018/08/27 18:06
+     */
+    public function querySuperior($user_token)
+    {
+        //创建模型对象
+        $opject = new DistributorModel();
+        //执行查询
+    }
 }

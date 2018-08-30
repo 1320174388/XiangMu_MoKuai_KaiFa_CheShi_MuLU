@@ -10,7 +10,7 @@
 namespace app\distributor_module\working_version\v1\controller;
 use think\Controller;
 use app\distributor_module\working_version\v1\service\DistributorService;
-
+use app\distributor_module\working_version\v1\library\DistributorLibrary;
 class DistributorController extends Controller
 {
     /**
@@ -109,5 +109,9 @@ class DistributorController extends Controller
 
         // 处理函数返回值
         return \RSD::wxReponse($res,'S','请求成功');
+    }
+    public function xx(){
+       $res = (new DistributorLibrary())->relationshipGet($_GET['user_token']);
+       return var_dump($res);
     }
 }
