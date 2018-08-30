@@ -26,18 +26,29 @@ class DistributorLibrary
         $opject = new DistributorDao();
         $data = '';
         //查询上级分销商
-        $result =  $opject->querySingle($user_token);
-        $parent_token = $result['data']['parent_token'];
+
+        $user_result =  $opject->querySingle($user_token);
+        $parent_token = $user_result['data']['parent_token'];
+
         if ($parent_token){
-            $data = "有父击".$parent_token;
-            $result =  $opject->querySingle($parent_token);
-            $parent_token1 = $result['data']['parent_token'];
-            if ($parent_token){
-                $data .= "有父击".$parent_token.'yeyou'.$parent_token1;
+            $data = "一".$parent_token;
+            $result1 =  $opject->querySingle($parent_token);
+            $parent_token1 = $result1['data']['parent_token'];
+            if ($parent_token1){
+                $data = "二".$parent_token.'一'.$parent_token1;
+                if ($user_result['data']['member_status'] == 0)
+                {
+                    $result2 =  $opject->querySingle($parent_token1);
+                    $parent_token2 = $result2['data']['parent_token'];
+                    $data = "三".$parent_token.'二'.$parent_token1.'一'.$parent_token2;
+                }
                 return $data;
             }
             return $data;
         }else{
+            if ($user_result['data']['member_status'] == 0){
+                return false;
+            }
             return "meiyou".$user_token;
         }
     }
