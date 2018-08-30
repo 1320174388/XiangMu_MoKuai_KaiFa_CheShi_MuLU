@@ -16,11 +16,11 @@ class DistributorModel extends Model
     protected $table = '';
 
     // 设置当前模型对应数据表的主键
-    protected $pk = '主键';
+    protected $pk = 'id';
 
     // 加载配置数据表名
     protected function initialize()
     {
-        $this->table = config('v1_tableName.数据表下标');
+        $this->table = config('v1_tableName.distribution');
     }
 }

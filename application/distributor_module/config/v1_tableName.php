@@ -9,8 +9,8 @@
  */
 
 return [
-    // 数据表注释
-    '数据表下标' => '数据表表名',
+    // 分销成员表
+    'distribution' => 'data_distribution_members',
     // 分销订单表
     'OrderTables' => 'data_distribution_orders',
 ];
