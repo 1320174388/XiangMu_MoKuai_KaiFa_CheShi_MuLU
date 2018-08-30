@@ -9,5 +9,6 @@
  */
 
 return [
-
+    'Wx_AppId'     => 'wx6516385261fa963a',
+    'Wx_AppSecret' => 'dc9823245780a506e679a121bb535e0b',
 ];
