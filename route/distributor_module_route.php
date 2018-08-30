@@ -15,7 +15,7 @@
  * 路由功能 : 创建分销员接口
  */
 Route::post(
-    ':v/distributor_module/distributor_route',
+    ':v/distributor_module/distributor_post',
     'distributor_module/:v.controller.DistributorController/distributorPost'
 );
 /**
@@ -23,7 +23,7 @@ Route::post(
  * 路由功能 : 注册推客员接口
  */
 Route::post(
-    ':v/distributor_module/promoter_route',
+    ':v/distributor_module/promoter_post',
     'distributor_module/:v.controller.DistributorController/promoterPost'
 );
 /**
@@ -31,8 +31,16 @@ Route::post(
  * 路由功能 : 修改推客员信息接口
  */
 Route::put(
-    ':v/distributor_module/promoter_route',
+    ':v/distributor_module/promoter_put',
     'distributor_module/:v.controller.DistributorController/promoterPut'
+);
+/**
+ * 传值方式 : GET
+ * 路由功能 : 修改推客员信息接口
+ */
+Route::get(
+    ':v/distributor_module/distributor_get',
+    'distributor_module/:v.controller.DistributorController/distributorGet'
 );
 
 

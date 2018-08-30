@@ -145,4 +145,53 @@ class DistributorService
         // 处理函数返回值
         return \RSD::wxReponse($res,'D');
     }
+    /**
+     * 名  称 : distributorGet()
+     * 功  能 : 获取分销商数据接口
+     * 变  量 : --------------------------------------
+     * 输  入 : (srting) $user_token  =>  `用户token`
+     * 输  入 : (srting) $type   =>  `获取分销商类型`
+     * 输  入 : (int)    $num         =>  `分页页码`
+     * 输  出 : ['msg'=>'success','data'=>'提示信息']
+     * 创  建 : 2018/08/30 13:06
+     */
+    public function distributorGet($get)
+    {
+        //验证数据
+        $validate = new Validate([
+            'type'        => 'require',
+        ],[
+            'type.require'     => '查询分销商类型type不能为空',
+        ]);
+        //返回数据错误
+        if (!$validate->check($get)){
+            return returnData('error',$validate->getError());
+        }
+
+        // 实例化Dao层数据类
+        $promoterDao = new DistributorDao();
+        isset($get['num']) or $get['num'] = 0;
+        //控制流程执行数据操作
+        switch ($get['type'])
+        {
+            //获取全部分销商数据
+            case 'all':
+                //查询
+                $res = $promoterDao->queryAll($get['num']);
+                //返回结果
+                return \RSD::wxReponse($res,'D');
+                break;
+            //获取佣金下级分销商信息
+            case 'son':
+
+                break;
+            //获取推客下级分销商信息
+            case 'push':
+
+                break;
+            //返回类型错误
+            default:
+                return returnData('error','type类型错误');
+        }
+    }
 }
