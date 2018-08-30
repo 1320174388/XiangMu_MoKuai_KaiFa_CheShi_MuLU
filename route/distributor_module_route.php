@@ -76,3 +76,14 @@ Route::get(
     ':v/distributor_module/putforward_route',
     'distributor_module/:v.controller.PutforwardController/putforwardGet'
 );
+
+// ----- 小程序二维码获取 -----
+
+/**
+ * 传值方式 : POST
+ * 路由功能 : 小程序二维码获取
+ */
+Route::post(
+    ':v/distributor_module/smallcode_route',
+    'distributor_module/:v.controller.SmallcodeController/smallcodePost'
+);
