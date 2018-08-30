@@ -24,4 +24,19 @@ interface OrderInterface
      * 创  建 : 2018/08/30 10:04
      */
     public function orderSelect($get);
+
+    /**
+     * 名  称 : orderCreate()
+     * 功  能 : 声明:添加订单数据处理
+     * 变  量 : --------------------------------------
+     * 输  入 : $post['OrderNumber'] => '订单OrderNumber编号';
+     * 输  入 : $post['UserToken']   => '买家UserToken身份标识;
+     * 输  入 : $post['JsonBuyer']   => '买家JSON数据，不需要则发送无用JSON格式数据;
+     * 输  入 : $post['JsonSeller']  => '卖家JSON数据，不需要则发送无用JSON格式数据
+     * 输  入 : $post['JsonOrder']   => '订单JSON数据，不需要则发送无用JSON格式数据
+     * 输  入 : $post['ProfitPrice'] => '分销商ProfitPrice收益金额
+     * 输  出 : ['msg'=>'success','data'=>'提示信息']
+     * 创  建 : 2018/08/31 01:24
+     */
+    public function orderCreate($post);
 }

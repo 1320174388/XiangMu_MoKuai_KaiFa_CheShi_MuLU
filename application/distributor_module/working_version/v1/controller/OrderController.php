@@ -39,4 +39,32 @@ class OrderController extends Controller
         // 处理函数返回值
         return \RSD::wxReponse($res,'S','请求成功');
     }
+
+    /**
+     * 名  称 : orderPost()
+     * 功  能 : 添加订单接口
+     * 变  量 : --------------------------------------
+     * 输  入 : $post['OrderNumber'] => '订单OrderNumber编号';
+     * 输  入 : $post['UserToken']   => '买家UserToken身份标识;
+     * 输  入 : $post['JsonBuyer']   => '买家JSON数据，不需要则发送无用JSON格式数据;
+     * 输  入 : $post['JsonSeller']  => '卖家JSON数据，不需要则发送无用JSON格式数据
+     * 输  入 : $post['JsonOrder']   => '订单JSON数据，不需要则发送无用JSON格式数据
+     * 输  入 : $post['ProfitPrice'] => '分销商ProfitPrice收益金额
+     * 输  出 : {"errNum":0,"retMsg":"提示信息","retData":true}
+     * 创  建 : 2018/08/31 01:24
+     */
+    public function orderPost(\think\Request $request)
+    {
+        // 实例化Service层逻辑类
+        $orderService = new OrderService();
+
+        // 获取传入参数
+        $post = $request->post();
+
+        // 执行Service逻辑
+        $res = $orderService->orderAdd($post);
+
+        // 处理函数返回值
+        return \RSD::wxReponse($res,'S','');
+    }
 }

@@ -16,40 +16,22 @@ class DistributorLibrary
      * 名  称 : relationshipGet()
      * 功  能 : 获取分销商的关系 获取三级关系
      * 变  量 : --------------------------------------
-     * 输  入 : (srting) $user_token          =>  `用户token`
+     * 输  入 : (srting) $user_token =>  `用户token`
      * 输  出 : ['msg'=>'success','data'=>'提示信息']
      * 创  建 : 2018/08/27 18:06
      */
     public function relationshipGet($user_token)
     {
-        //实例化Dao层
-        $opject = new DistributorDao();
-        $data = '';
-        //查询上级分销商
-
-        $user_result =  $opject->querySingle($user_token);
-        $parent_token = $user_result['data']['parent_token'];
-
-        if ($parent_token){
-            $data = "一".$parent_token;
-            $result1 =  $opject->querySingle($parent_token);
-            $parent_token1 = $result1['data']['parent_token'];
-            if ($parent_token1){
-                $data = "二".$parent_token.'一'.$parent_token1;
-                if ($user_result['data']['member_status'] == 0)
-                {
-                    $result2 =  $opject->querySingle($parent_token1);
-                    $parent_token2 = $result2['data']['parent_token'];
-                    $data = "三".$parent_token.'二'.$parent_token1.'一'.$parent_token2;
-                }
-                return $data;
-            }
-            return $data;
-        }else{
-            if ($user_result['data']['member_status'] == 0){
-                return false;
-            }
-            return "meiyou".$user_token;
+        // 验证数据
+        if((empty($user_token))||(strlen($user_token)!=32))
+        {
+            return returnData('error','请正确发送：买家UserToken身份标识');
         }
+        // 实例化Dao数据层
+        $distributorDao = new DistributorDao();
+        // 执行查询条件
+        $res = $distributorDao->querySuperior($user_token);
+        // 返回查询信息
+        return \RSD::wxReponse($res,'D');
     }
 }
