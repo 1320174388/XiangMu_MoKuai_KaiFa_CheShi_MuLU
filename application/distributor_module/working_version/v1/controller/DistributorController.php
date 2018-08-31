@@ -110,6 +110,4 @@ class DistributorController extends Controller
         // 处理函数返回值
         return \RSD::wxReponse($res,'S','请求成功');
     }
-
-    
 }
