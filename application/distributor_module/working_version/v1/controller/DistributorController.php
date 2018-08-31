@@ -10,7 +10,7 @@
 namespace app\distributor_module\working_version\v1\controller;
 use think\Controller;
 use app\distributor_module\working_version\v1\service\DistributorService;
-use app\distributor_module\working_version\v1\library\DistributorLibrary;
+use app\distributor_module\working_version\v1\library\OrderLibrary;
 class DistributorController extends Controller
 {
     /**
@@ -110,7 +110,6 @@ class DistributorController extends Controller
         // 处理函数返回值
         return \RSD::wxReponse($res,'S','请求成功');
     }
-
 
 }
 

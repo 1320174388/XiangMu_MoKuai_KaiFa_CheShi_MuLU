@@ -10,6 +10,7 @@
 namespace app\distributor_module\working_version\v1\dao;
 use app\distributor_module\working_version\v1\model\OrderModel;
 use app\distributor_module\working_version\v1\library\DistributorLibrary;
+use app\distributor_module\working_version\v1\model\ProfitModel;
 
 class OrderDao implements OrderInterface
 {
@@ -174,5 +175,47 @@ class OrderDao implements OrderInterface
         // TODO :  返回处理结果
         return $orderModel->save();
     }
+    /**
+     * 名  称 : orderSettlementQuery()
+     * 功  能 : 分销商订结算
+     * 输  入 : $get['order_number'] => '订单order_number编号';
+     */
+    public function orderSettlementQuery($order_number)
+    {
+        //实例化模型
+        $opject = new OrderModel();
+        //执行查询
+        $res = $opject->where('order_number',$order_number)
+                    ->field( 'user_token,profit_price')
+                     ->select();
+        //插入收益表
+        $profit = new ProfitModel();
+        //启动事务
+        \think\Db::startTrans();
+        foreach ($res->toArray() as $value){
+            //查询余额
+           $sum = $profit->where('user_token',$value['user_token'])
+                        ->field( 'profit_price')
+                        ->find();
+           //余额+佣金= 总价格
+            $price = $value['profit_price'] + $sum['profit_price'];
+            //更新余额
+            $profit->save([
+                'profit_price'  => $price
+            ],['user_token' =>  $value['user_token']]);
 
+        }
+        //更新订单结算状态
+       $res = $opject->where('order_number',$order_number)
+                ->setField('order_status',0);
+        if ($res){
+            //提交事务
+            \think\Db::commit();
+            return \RSD::wxReponse($res,'M','订单结算成功','订单结算失败');
+        }
+        //事务回滚
+        \think\Db::rollback();
+        return \RSD::wxReponse($res,'M','订单结算成功','订单结算失败');
+
+    }
 }

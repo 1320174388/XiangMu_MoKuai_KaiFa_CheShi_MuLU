@@ -9,6 +9,7 @@
  */
 namespace app\distributor_module\working_version\v1\dao;
 use app\distributor_module\working_version\v1\model\DistributorModel;
+use app\distributor_module\working_version\v1\model\ProfitModel;
 
 class DistributorDao implements DistributorInterface
 {
@@ -44,9 +45,25 @@ class DistributorDao implements DistributorInterface
     {
         $opject = new DistributorModel();
         //执行模型操作
-        $res = $opject->save($post,['user_token' => $post['user_token']]);
-        //返回结果
-        return \RSD::wxReponse($res,'M','成功','失败');
+        $res = $opject->save($post, ['user_token' => $post['user_token']]);
+        //启动事务
+        \think\Db::startTrans();
+        try {
+            //添加分销收益表
+            $post['created_time'] = '' . time() . '';
+            $result = ProfitModel::create($post, true);
+            //提交事务
+            \think\Db::commit();
+            //返回结果
+            return \RSD::wxReponse($result, 'M', '注册成功', '失败');
+        } catch (\Exception $e) {
+            //事务回滚
+            \think\Db::rollback();
+            //返回结果
+            return returnData('error','你已经是分销商了');
+        }
+
+
     }
     /**
      * 名  称 : promoterModify()
