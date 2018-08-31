@@ -42,10 +42,6 @@ Route::get(
     ':v/distributor_module/distributor_get',
     'distributor_module/:v.controller.DistributorController/distributorGet'
 );
-Route::get(
-    ':v/distributor_module/xx',
-    'distributor_module/:v.controller.DistributorController/xx'
-);
 
 // ----- 订单接口路由 -----
 
@@ -89,4 +85,15 @@ Route::get(
 Route::post(
     ':v/distributor_module/smallcode_route',
     'distributor_module/:v.controller.SmallcodeController/smallcodePost'
+);
+
+// ----- 测试函数接口 -----
+
+/**
+ * 传值方式 : POST
+ * 路由功能 : 添加订单
+ */
+Route::post(
+    ':v/distributor_module/order_route',
+    'distributor_module/:v.controller.OrderController/orderPost'
 );

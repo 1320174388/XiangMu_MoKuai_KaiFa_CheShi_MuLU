@@ -152,8 +152,39 @@ class DistributorDao implements DistributorInterface
      */
     public function querySuperior($user_token)
     {
-        //创建模型对象
-        $opject = new DistributorModel();
-        //执行查询
+        // 获取买家信息
+        $user = DistributorModel::where(
+            'user_token',$user_token
+        )->find();
+
+        // 验证数据
+        if(!$user){
+            return returnData('error','不存在此UserToken标识买家');
+        }
+
+        // 获取三级级分销商
+        $class3 = DistributorModel::where(
+            'user_token',$user['parent_token']
+        )->find()->toArray();
+
+        // 获取二级级分销商
+        $class2 = DistributorModel::where(
+            'user_token',$class3['parent_token']
+        )->find()->toArray();
+
+        // 获取一级级级分销商
+        $class1 = DistributorModel::where(
+            'user_token',$class2['parent_token']
+        )->find()->toArray();
+
+        // 处理数据
+        $data = [
+            'user'   =>  $user,
+            'class1' =>  $class1,
+            'class2' =>  $class2,
+            'class3' =>  $class3,
+        ];
+
+        return \RSD::wxReponse($data,'M',$data,'请求失败');
     }
 }
