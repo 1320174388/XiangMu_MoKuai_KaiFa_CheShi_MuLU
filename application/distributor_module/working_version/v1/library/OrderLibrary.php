@@ -116,25 +116,15 @@ class OrderLibrary extends Controller
     /**
      * 名  称 : orderSettlement()
      * 功  能 : 分销商订单结算函数
-     * 输  入 : $get['order_number'] => '订单OrderNumber编号';
+     * 输  入 : $get['order_number'] => '订单order_number编号';
      */
-    public function orderSettlement($get)
+    public function orderSettlement($order_number)
     {
-        $result = $this->validate(
-            $get,[
-            'order_number' => 'require|number',
-        ],[
-                'order_number.require' => '请正确发送订单order_number编号',
-            ]
-        );
-        if (true !== $result) {
-            // 验证失败 输出错误信息
-            return returnData('error',$result);
-        }
+        if (!isset($order_number)) return returnData('error','订单号order_number不能为空');
         // 实例化Dao层数据类
         $orderDao = new OrderDao();
         //执行查询
-       $reult = $orderDao->orderSettlementQuery($get['order_number']);
+       $reult = $orderDao->orderSettlementQuery($order_number);
 
         return \RSD::wxReponse($reult,'D');
     }
