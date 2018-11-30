@@ -34,10 +34,8 @@ class DatainitDao implements DatainitInterface
         {
             // 验证数据是否输入
             if(empty($v))return \RSD::returnModel(false,'E10000.json_object '.$k);
-            // 验证数据是否正确
-            if(!is_numeric($v))return \RSD::returnModel(false,'E10002.json_object '.$k);
             // 处理SQL语句
-            $keyString.= ",`{$k}` varchar({$v})";
+            $keyString.= ",`{$k}` {$v}";
         }
         $keyString = ltrim($keyString,',');
 
