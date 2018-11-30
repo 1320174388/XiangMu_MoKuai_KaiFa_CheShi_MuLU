@@ -74,6 +74,27 @@ class DataobjectDao implements DataobjectInterface
                 $dataObject = $dataObject->order("{$k} {$v}");
             }
         }
+        // TODO : 定义分页字段
+        if($get['json_limit']!=='NOT'){
+            if(!in_array(0,$get['json_limit'])){
+                die(\RSD::wxReponse(
+                    \RSD::returnData(
+                        'E40000.json_limit Query parameter error','', false
+                    ),'S'
+                ));
+            }
+            if(!in_array(1,$get['json_limit'])){
+                die(\RSD::wxReponse(
+                    \RSD::returnData(
+                        'E40000.json_limit Query parameter error','', false
+                    ),'S'
+                ));
+            }
+            $dataObject = $dataObject->limit(
+                $get['json_limit'][0],
+                $get['json_limit'][1]
+            );
+        }
 
         // TODO : 执行查询数据
         try{
