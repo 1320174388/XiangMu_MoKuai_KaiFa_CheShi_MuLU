@@ -86,7 +86,9 @@ class DataobjectService
         $get['json_field'] = json_decode($get['json_field'],true);
 
         // 验证 json_where 数据是否正确
-        if($get['json_where']=='ALL')
+        if($get['json_where']=='ALL'){
+            
+        }
         
         // 实例化Dao层数据类
         $dataobjectDao = new DataobjectDao();
