@@ -54,4 +54,47 @@ class DataobjectService
         // 处理函数返回值
         return \RSD::wxReponse($res,'D');
     }
+
+    /**
+     * 名  称 : dataobjectShow()
+     * 功  能 : 查询数据逻辑
+     * 变  量 : --------------------------------------
+     * 输  入 : (String) $get['table_name']  => '数据表名';
+     * 输  入 : (String) $get['json_field']  => '查询内容';
+     * 输  入 : (String) $get['json_where']  => '查询条件';
+     * 输  入 : (String) $get['json_order']  => '排序字段';
+     * 输  入 : (String) $get['json_limit']  => '分页字段';
+     * 输  出 : ['code'=>'错误码','msg'=>'提示信息','data'=>'返回数据']
+     * 创  建 : 2018/11/30 19:45
+     */
+    public function dataobjectShow($get)
+    {
+        // 实例化验证器代码
+        $validate  = new DataobjectValidateGet();
+        
+        // 验证数据
+        if (!$validate->scene('edit')->check($get)) {
+            return \RSD::returnData($validate->getError(),'',false);
+        }
+
+        // 验证 json_field 数据是否正确
+        if(!json_decode($get['json_field'],true)){
+            return \RSD::returnData(
+                'E10002.json_field Parameter Formatting Error','', false
+            );
+        }
+        $get['json_field'] = json_decode($get['json_field'],true);
+
+        // 验证 json_where 数据是否正确
+        if($get['json_where']=='ALL')
+        
+        // 实例化Dao层数据类
+        $dataobjectDao = new DataobjectDao();
+        
+        // 执行Dao层逻辑
+        $res = $dataobjectDao->dataobjectSelect($get);
+        
+        // 处理函数返回值
+        return \RSD::wxReponse($res,'D');
+    }
 }

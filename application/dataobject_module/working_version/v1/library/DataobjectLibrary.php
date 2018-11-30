@@ -28,4 +28,24 @@ class DataobjectLibrary
         // TODO : 返回函数输出数据
         return \RSD::returnData('','',false);
     }
+
+    /**
+     * 名  称 : dataobjectLibGet()
+     * 功  能 : 查询数据函数类
+     * 变  量 : --------------------------------------
+     * 输  入 : (String) $get['table_name']  => '数据表名';
+     * 输  入 : (String) $get['json_field']  => '查询内容';
+     * 输  入 : (String) $get['json_where']  => '查询条件';
+     * 输  入 : (String) $get['json_order']  => '排序字段';
+     * 输  入 : (String) $get['json_limit']  => '分页字段';
+     * 输  出 : ['code'=>'错误码','msg'=>'提示信息','data'=>'返回数据']
+     * 创  建 : 2018/11/30 19:45
+     */
+    public function dataobjectLibGet($get)
+    {
+        // TODO : 执行函数处理逻辑
+        
+        // TODO : 返回函数输出数据
+        return \RSD::returnData('','',false);
+    }
 }

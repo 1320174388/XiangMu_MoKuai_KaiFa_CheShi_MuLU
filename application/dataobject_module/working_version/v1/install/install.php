@@ -11,16 +11,19 @@ include('./library/Function_Create_Library.php');
 
 Function_Create_Library::execCreateFunction([
     // 传值类型 : (GET/POST/PUT/DELETE)
-    'dataType' => 'POST',
+    'dataType' => 'GET',
     // 函数名称 : 默认 __function
-    'name'     => 'datainit',
+    'name'     => 'dataobject',
     // 函数说明 : 默认 新创建函数
-    'explain'  => '初始化数据表',
+    'explain'  => '查询数据',
     // 函数输入 : 示例 [
     //  '$get['UserName']  => '用户名称';',
     //]
     'input'    => [
         '(String) $post[\'table_name\']  => \'数据表名\';',
-        '(String) $post[\'json_object\'] => \'数据内容\';',
+        '(String) $post[\'json_field\']  => \'查询内容\';',
+        '(String) $post[\'json_where\']  => \'查询条件\';',
+        '(String) $post[\'json_order\']  => \'排序字段\';',
+        '(String) $post[\'json_limit\']  => \'分页字段\';'
     ],
 ]);
