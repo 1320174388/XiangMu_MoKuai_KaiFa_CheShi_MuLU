@@ -24,8 +24,19 @@ class DataobjectDao implements DataobjectInterface
      */
     public function dataobjectCreate($post)
     {
-        
+        // TODO : 实例化数据模型
+        $dataObject = new DataobjectModel();
+        // TODO : 配置模型表名
+        $dataObject->setTableName($post['table_name']);
+        // TODO : 执行写入数据
+        try{
+            $dataObject->save($post['json_object']);
+        }catch (\Exception $e){
+            return \RSD::returnModel(
+                false,'E10002.[json_object] Parameter Formatting Error'
+            );
+        }
         // 处理函数返回值
-        return \RSD::returnModel(true,'E40000',$this->tableCreate($post),'请求失败');
+        return \RSD::returnModel(true,'E10002');
     }
 }

@@ -17,11 +17,12 @@ class DataobjectModel extends Model
     protected $table = '';
 
     // 设置当前模型对应数据表的主键
-    protected $pk = '主键';
+    protected $pk = '';
 
     // 加载配置数据表名
-    protected function initialize()
+    public function setTableName($tableName)
     {
-        $this->table = config('dataobject_v1_tableName.数据表下标');
+        $this->pk    = $tableName.'_id';
+        $this->table = config('dataobject_v1_config.table_name').$tableName;
     }
 }

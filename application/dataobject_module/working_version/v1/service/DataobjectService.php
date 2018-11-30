@@ -36,6 +36,14 @@ class DataobjectService
         if (!$validate->scene('edit')->check($post)) {
             return \RSD::returnData($validate->getError(),'',false);
         }
+
+        // 验证数据是否正确
+        if(!json_decode($post['json_object'],true)){
+            return \RSD::returnData(
+                'E10002.json_object Parameter Formatting Error','', false
+            );
+        }
+        $post['json_object'] = json_decode($post['json_object'],true);
         
         // 实例化Dao层数据类
         $dataobjectDao = new DataobjectDao();
