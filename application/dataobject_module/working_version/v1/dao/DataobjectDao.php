@@ -54,9 +54,38 @@ class DataobjectDao implements DataobjectInterface
      */
     public function dataobjectSelect($get)
     {
-        // TODO :  DataobjectModel 模型
-        
+        // TODO : 实例化数据模型
+        $dataObject = new DataobjectModel();
+        // TODO : 配置模型表名
+        $dataObject->setTableName($get['table_name']);
+        // TODO : 定义需要查询字段
+        $dataObject = $dataObject->field(implode(',',$get['json_field']));
+        // TODO : 定义查询条件
+        if($get['json_where']!=='ALL'){
+            foreach($get['json_where'] as $k => $v)
+            {
+                $dataObject = $dataObject->where($k,'like','%'.$v.'%');
+            }
+        }
+        // TODO : 定义排序条件
+        if($get['json_order']!=='NOT'){
+            foreach($get['json_order'] as $k => $v)
+            {
+                $dataObject = $dataObject->order("{$k} {$v}");
+            }
+        }
+
+        // TODO : 执行查询数据
+        try{
+            $res = $dataObject->select()->toArray();
+        }catch (\Exception $e){
+            die(\RSD::wxReponse(
+                \RSD::returnData(
+                    'E40000.Query parameter error','', false
+                ),'S'
+            ));
+        }
         // 处理函数返回值
-        return \RSD::returnModel(true,'E40000','请求成功','请求失败');
+        return \RSD::returnModel($res,'E40000');
     }
 }

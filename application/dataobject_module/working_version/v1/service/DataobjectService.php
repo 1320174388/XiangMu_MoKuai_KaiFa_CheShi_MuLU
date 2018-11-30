@@ -78,16 +78,27 @@ class DataobjectService
         }
 
         // 验证 json_field 数据是否正确
-        if(!json_decode($get['json_field'],true)){
-            return \RSD::returnData(
-                'E10002.json_field Parameter Formatting Error','', false
-            );
-        }
-        $get['json_field'] = json_decode($get['json_field'],true);
+        $this->isSetJson('json_field',$get);
 
         // 验证 json_where 数据是否正确
-        if($get['json_where']=='ALL'){
-            
+        if(strtoupper($get['json_where'])!=='ALL'){
+            $this->isSetJson('json_where',$get);
+        }else{
+            $get['json_where'] = 'ALL';
+        }
+
+        // 验证 json_order 数据是否正确
+        if(strtoupper($get['json_order'])!=='NOT'){
+            $this->isSetJson('json_order',$get);
+        }else{
+            $get['json_order'] = 'NOT';
+        }
+
+        // 验证 json_limit 数据是否正确
+        if(strtoupper($get['json_limit'])!=='NOT'){
+            $this->isSetJson('json_limit',$get);
+        }else{
+            $get['json_limit'] = 'NOT';
         }
         
         // 实例化Dao层数据类
@@ -98,5 +109,20 @@ class DataobjectService
         
         // 处理函数返回值
         return \RSD::wxReponse($res,'D');
+    }
+
+    /**
+     * 验证 json 数据是否正确
+     */
+    private function isSetJson($jsonName,&$get)
+    {
+        if(!json_decode($get[$jsonName],true)){
+            die(\RSD::wxReponse(
+                \RSD::returnData(
+                    'E10002.'.$jsonName.' Parameter Formatting Error','', false
+                ),'S'
+            ));
+        }
+        $get[$jsonName] = json_decode($get[$jsonName],true);
     }
 }

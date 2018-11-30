@@ -26,3 +26,12 @@ Route::post(
     ':v/dataobject_module/dataobject_route',
     'dataobject_module/:v.controller.DataobjectController/dataobjectPost'
 );
+
+/**
+ * 传值方式 : GET
+ * 路由功能 : 查询数据
+ */
+Route::get(
+    ':v/dataobject_module/dataobject_route',
+    'dataobject_module/:v.controller.DataobjectController/dataobjectGet'
+);
