@@ -76,23 +76,10 @@ class DataobjectDao implements DataobjectInterface
         }
         // TODO : 定义分页字段
         if($get['json_limit']!=='NOT'){
-            if(!in_array(0,$get['json_limit'])){
-                die(\RSD::wxReponse(
-                    \RSD::returnData(
-                        'E40000.json_limit Query parameter error','', false
-                    ),'S'
-                ));
-            }
-            if(!in_array(1,$get['json_limit'])){
-                die(\RSD::wxReponse(
-                    \RSD::returnData(
-                        'E40000.json_limit Query parameter error','', false
-                    ),'S'
-                ));
-            }
+            $this->isSetLimit(0,'offset',$get);
+            $this->isSetLimit(1,'length',$get);
             $dataObject = $dataObject->limit(
-                $get['json_limit'][0],
-                $get['json_limit'][1]
+                $get['json_limit'][0],$get['json_limit'][1]
             );
         }
 
@@ -108,5 +95,22 @@ class DataobjectDao implements DataobjectInterface
         }
         // 处理函数返回值
         return \RSD::returnModel($res,'E40000');
+    }
+
+    /**
+     * 验证分页数据是否存在
+     */
+    private function isSetLimit($key,$str = '',$get)
+    {
+        if(
+            (!array_key_exists($key,$get['json_limit'])) ||
+            (!is_numeric($get['json_limit'][$key]))
+        ){
+            die(\RSD::wxReponse(
+                \RSD::returnData(
+                    'E40000.json_limit '.$str.' Query parameter error','', false
+                ),'S'
+            ));
+        }
     }
 }
