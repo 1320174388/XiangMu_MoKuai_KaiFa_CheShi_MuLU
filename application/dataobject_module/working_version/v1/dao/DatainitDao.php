@@ -34,7 +34,7 @@ class DatainitDao implements DatainitInterface
                 // 验证数据是否输入
                 if(empty($v))return \RSD::returnModel(false,'E10000.json_object '.$k);
                 // 处理SQL语句
-                $keyString.= ",`{$k}` {$v}";
+                $keyString.= $this->isDataCreate($k,$v);
             }
             $keyString = ltrim($keyString,',');
 
@@ -44,6 +44,54 @@ class DatainitDao implements DatainitInterface
         });
         // 验证是否有修改
         return \RSD::returnModel($keyArray,'E40201');
+    }
+
+    /**
+     * 处理建库数据参数
+     */
+    private function isDataCreate($key,$dataType)
+    {
+        // 修改健名全部大写
+        if(!is_array($dataType)){
+            die(\RSD::wxReponse(
+                \RSD::returnData(
+                    'E10002.'.$key.' Parameter Formatting Error','', false
+                ),'S'
+            ));
+        }
+        $dataArr = array_change_key_case($dataType,CASE_UPPER);
+        if(
+            (!array_key_exists('TYPE',$dataArr))||
+            (!array_key_exists('SIZE',$dataArr))
+        ){
+            die(\RSD::wxReponse(
+                \RSD::returnData(
+                    'E10002.'.$key.' Parameter Formatting Error','', false
+                ),'S'
+            ));
+        }
+        if(
+            (strtoupper($dataArr['TYPE'])!=="INT")&&
+            (strtoupper($dataArr['TYPE'])!=="VAR")
+        ){
+            die(\RSD::wxReponse(
+                \RSD::returnData(
+                    'E10002.'.$key.'.type Parameter Formatting Error','', false
+                ),'S'
+            ));
+        }
+        if(
+            (!is_numeric($dataArr['SIZE']))
+        ){
+            die(\RSD::wxReponse(
+                \RSD::returnData(
+                    'E10002.'.$key.'.size Parameter Formatting Error','', false
+                ),'S'
+            ));
+        }
+        // 处理字段信息
+        $type = (strtoupper($dataArr['TYPE'])=='VAR')?'VARCHAR':'INT';
+        return ",`{$key}` {$type}({$dataArr['SIZE']})";
     }
 
     /**
