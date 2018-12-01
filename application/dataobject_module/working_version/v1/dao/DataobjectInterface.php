@@ -36,4 +36,27 @@ interface DataobjectInterface
      * 创  建 : 2018/11/30 19:45
      */
     public function dataobjectSelect($get);
+
+    /**
+     * 名  称 : dataobjectUpdate()
+     * 功  能 : 声明:更新数据数据处理
+     * 变  量 : --------------------------------------
+     * 输  入 : (String) $put['table_name']  => '数据表名';
+     * 输  入 : (String) $put['json_obj_id'] => '对象ID';
+     * 输  入 : (String) $put['json_object'] => '更新内容';
+     * 输  出 : ['code'=>'错误码','msg'=>'提示信息','data'=>'返回数据']
+     * 创  建 : 2018/12/01 14:13
+     */
+    public function dataobjectUpdate($put);
+
+    /**
+     * 名  称 : dataobjectDelete()
+     * 功  能 : 声明:删除数据数据处理
+     * 变  量 : --------------------------------------
+     * 输  入 : (String) $delete['table_name']  => '数据表名';
+     * 输  入 : (String) $delete['json_obj_id'] => '对象ID';
+     * 输  出 : ['code'=>'错误码','msg'=>'提示信息','data'=>'返回数据']
+     * 创  建 : 2018/12/01 14:53
+     */
+    public function dataobjectDelete($delete);
 }

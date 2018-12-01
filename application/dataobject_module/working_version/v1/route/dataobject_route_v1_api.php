@@ -35,3 +35,21 @@ Route::get(
     ':v/dataobject_module/dataobject_route',
     'dataobject_module/:v.controller.DataobjectController/dataobjectGet'
 );
+
+/**
+ * 传值方式 : PUT
+ * 路由功能 : 更新数据
+ */
+Route::put(
+    ':v/dataobject_module/dataobject_route',
+    'dataobject_module/:v.controller.DataobjectController/dataobjectPut'
+);
+
+/**
+ * 传值方式 : DELETE
+ * 路由功能 : 删除数据
+ */
+Route::delete(
+    ':v/dataobject_module/dataobject_route',
+    'dataobject_module/:v.controller.DataobjectController/dataobjectDelete'
+);

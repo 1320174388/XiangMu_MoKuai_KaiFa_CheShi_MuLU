@@ -64,4 +64,53 @@ class DataobjectController extends Controller
         // 处理函数返回值
         return \RSD::wxReponse($res,'S');
     }
+
+    /**
+     * 名  称 : dataobjectPut()
+     * 功  能 : 更新数据接口
+     * 变  量 : --------------------------------------
+     * 输  入 : (String) $put['table_name']  => '数据表名';
+     * 输  入 : (String) $put['json_obj_id'] => '对象ID';
+     * 输  入 : (String) $put['json_object'] => '更新内容';
+     * 输  出 : {"errNum":0,"retMsg":"提示信息","retData":true}
+     * 创  建 : 2018/12/01 14:13
+     */
+    public function dataobjectPut(\think\Request $request)
+    {
+        // 实例化Service层逻辑类
+        $dataobjectService = new DataobjectService();
+        
+        // 获取传入参数
+        $put = $request->put();
+        
+        // 执行Service逻辑
+        $res = $dataobjectService->dataobjectEdit($put);
+        
+        // 处理函数返回值
+        return \RSD::wxReponse($res,'S');
+    }
+
+    /**
+     * 名  称 : dataobjectDelete()
+     * 功  能 : 删除数据接口
+     * 变  量 : --------------------------------------
+     * 输  入 : (String) $delete['table_name']  => '数据表名';
+     * 输  入 : (String) $delete['json_obj_id'] => '对象ID';
+     * 输  出 : {"errNum":0,"retMsg":"提示信息","retData":true}
+     * 创  建 : 2018/12/01 14:53
+     */
+    public function dataobjectDelete(\think\Request $request)
+    {
+        // 实例化Service层逻辑类
+        $dataobjectService = new DataobjectService();
+        
+        // 获取传入参数
+        $delete = $request->delete();
+        
+        // 执行Service逻辑
+        $res = $dataobjectService->dataobjectDel($delete);
+        
+        // 处理函数返回值
+        return \RSD::wxReponse($res,'S');
+    }
 }

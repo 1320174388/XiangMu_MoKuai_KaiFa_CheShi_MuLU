@@ -48,4 +48,39 @@ class DataobjectLibrary
         // TODO : 返回函数输出数据
         return \RSD::returnData('','',false);
     }
+
+    /**
+     * 名  称 : dataobjectLibPut()
+     * 功  能 : 更新数据函数类
+     * 变  量 : --------------------------------------
+     * 输  入 : (String) $put['table_name']  => '数据表名';
+     * 输  入 : (String) $put['json_obj_id'] => '对象ID';
+     * 输  入 : (String) $put['json_object'] => '更新内容';
+     * 输  出 : ['code'=>'错误码','msg'=>'提示信息','data'=>'返回数据']
+     * 创  建 : 2018/12/01 14:13
+     */
+    public function dataobjectLibPut($put)
+    {
+        // TODO : 执行函数处理逻辑
+        
+        // TODO : 返回函数输出数据
+        return \RSD::returnData('','',false);
+    }
+
+    /**
+     * 名  称 : dataobjectLibDelete()
+     * 功  能 : 删除数据函数类
+     * 变  量 : --------------------------------------
+     * 输  入 : (String) $delete['table_name']  => '数据表名';
+     * 输  入 : (String) $delete['json_obj_id'] => '对象ID';
+     * 输  出 : ['code'=>'错误码','msg'=>'提示信息','data'=>'返回数据']
+     * 创  建 : 2018/12/01 14:53
+     */
+    public function dataobjectLibDelete($delete)
+    {
+        // TODO : 执行函数处理逻辑
+        
+        // TODO : 返回函数输出数据
+        return \RSD::returnData('','',false);
+    }
 }

@@ -2,8 +2,8 @@
 /**
  *  版权声明 :  地老天荒科技有限公司
  *  文件名称 :  dataobject_route_v1_api.php
- *  开发人员 :  Feng Tian Shui
- *  联系电话 :  15731709183
+ *  开发人员 :  Shi Guang Yu
+ *  联系电话 :  18646731096
  *  创建日期 :  2018/11/22 22:07
  *  文件描述 :  数据操作对象路由文件
  *  历史记录 :  -----------------------
@@ -34,4 +34,22 @@ Route::post(
 Route::get(
     ':v/dataobject_module/dataobject_route',
     'dataobject_module/:v.controller.DataobjectController/dataobjectGet'
+);
+
+/**
+ * 传值方式 : PUT
+ * 路由功能 : 更新数据
+ */
+Route::put(
+    ':v/dataobject_module/dataobject_route',
+    'dataobject_module/:v.controller.DataobjectController/dataobjectPut'
+);
+
+/**
+ * 传值方式 : DELETE
+ * 路由功能 : 删除数据
+ */
+Route::delete(
+    ':v/dataobject_module/dataobject_route',
+    'dataobject_module/:v.controller.DataobjectController/dataobjectDelete'
 );

@@ -113,4 +113,67 @@ class DataobjectDao implements DataobjectInterface
             ));
         }
     }
+
+    /**
+     * 名  称 : dataobjectUpdate()
+     * 功  能 : 更新数据数据处理
+     * 变  量 : --------------------------------------
+     * 输  入 : (String) $put['table_name']  => '数据表名';
+     * 输  入 : (String) $put['json_obj_id'] => '对象ID';
+     * 输  入 : (String) $put['json_object'] => '更新内容';
+     * 输  出 : ['code'=>'错误码','msg'=>'提示信息','data'=>'返回数据']
+     * 创  建 : 2018/12/01 14:13
+     */
+    public function dataobjectUpdate($put)
+    {
+        // TODO : 实例化数据模型
+        $dataObject = new DataobjectModel();
+        // TODO : 配置模型表名
+        $dataObject->setTableName($put['table_name']);
+        // TODO : 执行修改数据
+        try{
+            // save方法第二个参数为更新条件
+            $dataObject->save(
+                $put['json_object'], [
+                    $put['table_name'].'_id' => $put['json_obj_id']
+                ]
+            );
+        }catch (\Exception $e){
+            return \RSD::returnModel(
+                false,'E10002.[json_object] Parameter Formatting Error'
+            );
+        }
+        // 处理函数返回值
+        return \RSD::returnModel(true,'E10002');
+    }
+
+    /**
+     * 名  称 : dataobjectDelete()
+     * 功  能 : 删除数据数据处理
+     * 变  量 : --------------------------------------
+     * 输  入 : (String) $delete['table_name']  => '数据表名';
+     * 输  入 : (String) $delete['json_obj_id'] => '对象ID';
+     * 输  出 : ['code'=>'错误码','msg'=>'提示信息','data'=>'返回数据']
+     * 创  建 : 2018/12/01 14:53
+     */
+    public function dataobjectDelete($delete)
+    {
+        // TODO : 实例化数据模型
+        $dataObject = new DataobjectModel();
+        // TODO : 配置模型表名
+        $dataObject->setTableName($delete['table_name']);
+        // TODO : 执行删除数据
+        try{
+            // save方法第二个参数为更新条件
+            $dataObject->where(
+                $delete['table_name'].'_id',$delete['json_obj_id']
+            )->delete();
+        }catch (\Exception $e){
+            return \RSD::returnModel(
+                false,'E10002.[json_object] Parameter Formatting Error'
+            );
+        }
+        // 处理函数返回值
+        return \RSD::returnModel(true,'E10002');
+    }
 }
