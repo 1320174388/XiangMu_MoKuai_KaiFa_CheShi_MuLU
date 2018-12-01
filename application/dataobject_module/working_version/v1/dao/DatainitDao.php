@@ -76,7 +76,7 @@ class DatainitDao implements DatainitInterface
         ){
             die(\RSD::wxReponse(
                 \RSD::returnData(
-                    'E10002.'.$key.'.type Parameter Formatting Error','', false
+                    'E10002.'.$key.' Type Parameter Formatting Error','', false
                 ),'S'
             ));
         }
@@ -85,7 +85,7 @@ class DatainitDao implements DatainitInterface
         ){
             die(\RSD::wxReponse(
                 \RSD::returnData(
-                    'E10002.'.$key.'.size Parameter Formatting Error','', false
+                    'E10002.'.$key.' Size Parameter Formatting Error','', false
                 ),'S'
             ));
         }
