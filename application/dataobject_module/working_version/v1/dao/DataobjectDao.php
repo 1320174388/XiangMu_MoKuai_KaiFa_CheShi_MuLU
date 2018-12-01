@@ -59,7 +59,9 @@ class DataobjectDao implements DataobjectInterface
         // TODO : 配置模型表名
         $dataObject->setTableName($get['table_name']);
         // TODO : 定义需要查询字段
-        $dataObject = $dataObject->field(implode(',',$get['json_field']));
+        if($get['json_field']!=='ALL'){
+            $dataObject = $dataObject->field(implode(',',$get['json_field']));
+        }
         // TODO : 定义查询条件
         if($get['json_where']!=='ALL'){
             foreach($get['json_where'] as $k => $v)

@@ -78,7 +78,11 @@ class DataobjectService
         }
 
         // 验证 json_field 数据是否正确
-        $this->isSetJson('json_field',$get);
+        if(strtoupper($get['json_field'])!=='ALL'){
+            $this->isSetJson('json_field',$get);
+        }else{
+            $get['json_where'] = 'ALL';
+        }
 
         // 验证 json_where 数据是否正确
         if(strtoupper($get['json_where'])!=='ALL'){
