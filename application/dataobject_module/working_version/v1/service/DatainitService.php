@@ -46,6 +46,9 @@ class DatainitService
             );
         }
 
+        // 转换表名为小写
+        $post['table_name'] = strtolower($post['table_name']);
+
         // 验证数据是否正确
         if(!json_decode($post['json_object'],true)){
             return \RSD::returnData(

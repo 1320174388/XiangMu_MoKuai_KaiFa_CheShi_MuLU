@@ -37,6 +37,9 @@ class DataobjectService
             return \RSD::returnData($validate->getError(),'',false);
         }
 
+        // 转换表名为小写
+        $post['table_name'] = strtolower($post['table_name']);
+
         // 验证数据是否正确
         if(!json_decode($post['json_object'],true)){
             return \RSD::returnData(
@@ -76,6 +79,9 @@ class DataobjectService
         if (!$validate->scene('edit')->check($get)) {
             return \RSD::returnData($validate->getError(),'',false);
         }
+
+        // 转换表名为小写
+        $post['table_name'] = strtolower($get['table_name']);
 
         // 验证 json_field 数据是否正确
         if(strtoupper($get['json_field'])!=='ALL'){
@@ -150,6 +156,9 @@ class DataobjectService
             return \RSD::returnData($validate->getError(),'',false);
         }
 
+        // 转换表名为小写
+        $post['table_name'] = strtolower($put['table_name']);
+
         // 验证 json_object 数据是否正确
         $this->isSetJson('json_object',$put);
         
@@ -181,6 +190,9 @@ class DataobjectService
         if (!$validate->scene('edit')->check($delete)) {
             return \RSD::returnData($validate->getError(),'',false);
         }
+
+        // 转换表名为小写
+        $post['table_name'] = strtolower($delete['table_name']);
         
         // 实例化Dao层数据类
         $dataobjectDao = new DataobjectDao();

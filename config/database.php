@@ -15,7 +15,7 @@ return [
     // 服务器地址
     'hostname'        => '127.0.0.1',
     // 数据库名
-    'database'        => 'sql_cheshi_db',
+    'database'        => 'mysql_sgy_cheshi',
     // 用户名
     'username'        => 'root',
     // 密码
