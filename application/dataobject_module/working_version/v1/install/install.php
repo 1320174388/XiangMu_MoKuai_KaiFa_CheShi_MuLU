@@ -11,19 +11,21 @@ include('./library/Function_Create_Library.php');
 
 Function_Create_Library::execCreateFunction([
     // 传值类型 : (GET/POST/PUT/DELETE)
-    'dataType' => 'DELETE',
+    'dataType' => 'POST',
     // 函数名称 : 默认 __function
-    'name'     => 'dataobject',
+    'name'     => 'imageobject',
     // 函数说明 : 默认 新创建函数
-    'explain'  => '删除数据',
+    'explain'  => '添加图片',
     // 函数输入 : 示例 [
     //  '$get['UserName']  => '用户名称';',
     //]
     'input'    => [
-        '(String) $delete[\'table_name\']  => \'数据表名\';',
-//        '(String) $put[\'json_field\']  => \'查询内容\';',
-        '(String) $delete[\'json_obj_id\'] => \'对象ID\';',
-//        '(String) $put[\'json_object\'] => \'更新内容\';',
+//        '(String) $post[\'module_key\']  => \'模块秘钥\';',
+        '(String) $post[\'table_name\']    => \'数据表名\';',
+        '(String) $post[\'picture_data\']  => \'图片数据\';',
+//        '(String) $post[\'json_field\']  => \'查询内容\';',
+//        '(String) $post[\'json_obj_id\'] => \'对象ID\';',
+//        '(String) $post[\'json_object\'] => \'更新内容\';',
 //        '(String) $post[\'json_order\']  => \'排序字段\';',
 //        '(String) $post[\'json_limit\']  => \'分页字段\';'
     ],

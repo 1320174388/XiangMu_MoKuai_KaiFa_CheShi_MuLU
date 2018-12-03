@@ -53,3 +53,12 @@ Route::delete(
     ':v/dataobject_module/dataobject_route',
     'dataobject_module/:v.controller.DataobjectController/dataobjectDelete'
 );
+
+/**
+ * 传值方式 : POST
+ * 路由功能 : 添加图片
+ */
+Route::post(
+    ':v/dataobject_module/imageobject_route',
+    'dataobject_module/:v.controller.ImageobjectController/imageobjectPost'
+);

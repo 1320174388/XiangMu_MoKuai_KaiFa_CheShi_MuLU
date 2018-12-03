@@ -14,6 +14,10 @@ return [
     'table_name'  => 'web_table_',
     // 数据配置表名前缀
     'web_config'  => 'web_config_',
+    // 图片数据表名前缀
+    'web_images'  => 'web_images_',
+    // 图片保存路径
+    'web_img_dir' => 'web_img_dir',
     // 数据配置表名
     'config_name' => 'tables',
     // 模块使用秘钥

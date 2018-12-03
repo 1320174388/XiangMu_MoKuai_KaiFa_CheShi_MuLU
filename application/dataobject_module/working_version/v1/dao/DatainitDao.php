@@ -105,8 +105,10 @@ class DatainitDao implements DatainitInterface
      */
     private function tableCreate($keyString='',$post)
     {
-        // 获取表前缀
+        // 获取数据表前缀
         $web = config('dataobject_v1_config.table_name');
+        // 获取图片表前缀
+        $img = config('dataobject_v1_config.web_images');
         try {
             // TODO :  执行删除数据表
             \think\Db::execute("DROP TABLE IF EXISTS {$web}{$post['table_name']}");
@@ -115,6 +117,17 @@ class DatainitDao implements DatainitInterface
                 CREATE TABLE IF NOT EXISTS `{$web}{$post['table_name']}` (
                     `{$post['table_name']}_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
                     {$keyString}
+                ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+sql
+            );
+            // TODO :  执行删除图片表
+            \think\Db::execute("DROP TABLE IF EXISTS {$img}{$post['table_name']}");
+            // TODO :  执行创建数据表
+            \think\Db::execute(<<<sql
+                CREATE TABLE IF NOT EXISTS `{$img}{$post['table_name']}` (
+                    `{$post['table_name']}_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+                    `image_url`  VARCHAR(520),
+                    `image_time` INT(10)
                 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 sql
             );

@@ -324,7 +324,7 @@ class RSD extends ExceptionCodeConfig
      * 输  出 : {"errNum":0,"retMsg":"提示信息","retData":"返回数据"}
      * 创  建 : 2018/08/15 17:13
      */
-    public static function returnJson($errCode,$retMsg,$retData=false)
+    public static function returnJson($errCode,$retMsg='',$retData=false)
     {
         // 判断错误码是否存在
         self::errorcodeVal($errCode,$retMsg);
@@ -368,6 +368,27 @@ class RSD extends ExceptionCodeConfig
             }
         }
     }
+
+    /**
+     * 名  称 : JsonDie()
+     * 功  能 : 强制输出JSON错误
+     * 输  入 : (int)    $errCode  => '返回状态编号';
+     * 输  入 : (string) $retMsg  => '提示信息'
+     * 输  入 : (data)   $retData => '任意数据格式内容'
+     * 输  出 : {"errNum":0,"retMsg":"提示信息","retData":"返回数据"}
+     * 创  建 : 2018/08/15 17:13
+     */
+    public static function JsonDie($errCode,$retMsg='',$retData=false)
+    {
+        // 判断错误码是否存在
+        self::errorcodeVal($errCode,$retMsg);
+        // 返回数据
+        die(json_encode([
+            'errCode' => $errCode,
+            'retMsg'  => $retMsg,
+            'retData' => $retData
+        ], 320));
+    }
 }
 
 /**
@@ -394,6 +415,8 @@ class ExceptionCodeConfig
     const E20000 = 'No Authority.';
     // TODO : E30100 -> 图片大小超过限制
     const E30100 = 'Image Size Exceeds.';
+    // TODO : E30102 -> 没有图片上传
+    const E30102 = 'No pictures uploaded';
     // TODO : E30101 -> 不支持图片类型
     const E30101 = 'Image Type Is Not Supported.';
     // TODO : E30200 -> 文件大小超过限制
