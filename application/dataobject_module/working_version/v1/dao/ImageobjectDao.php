@@ -39,7 +39,7 @@ class ImageobjectDao implements ImageobjectInterface
             );
         }
         // 处理函数返回值
-        return \RSD::returnModel(true,'E10002');
+        return \RSD::returnModel($imageObject,'E10002');
     }
 
     /**
