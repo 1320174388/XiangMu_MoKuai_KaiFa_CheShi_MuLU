@@ -33,4 +33,15 @@ interface ImageobjectInterface
      * 创  建 : 2018/12/04 09:42
      */
     public function imageobjectSelect($get);
+
+    /**
+     * 名  称 : imageobjectDelete()
+     * 功  能 : 声明:删除图片数据处理
+     * 变  量 : --------------------------------------
+     * 输  入 : (String) $delete['table_name'] => '数据表名';
+     * 输  入 : (String) $delete['images_id']  => '图片ID';
+     * 输  出 : ['code'=>'错误码','msg'=>'提示信息','data'=>'返回数据']
+     * 创  建 : 2018/12/04 09:53
+     */
+    public function imageobjectDelete($delete);
 }

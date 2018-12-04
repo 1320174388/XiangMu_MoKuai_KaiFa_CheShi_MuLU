@@ -21,9 +21,8 @@ class ImageobjectValidateGet extends Validate
      * 创  建 : 2018/12/04 09:42
      */
     protected $rule =   [
-        'name'  => 'require|max:25',
-        'age'   => 'number|between:1,120',
-        'email' => 'email',
+        'table_name'  => 'require|min:1|max:32|alphaDash',
+        'json_limit'  => 'require|min:1|max:8000',
     ];
 
     /**
@@ -32,10 +31,12 @@ class ImageobjectValidateGet extends Validate
      * 创  建 : 2018/12/04 09:42
      */
     protected $message  =   [
-        'name.require' => 'E10000',
-        'name.max'     => 'E10001',
-        'age.number'   => 'E10002',
-        'age.between'  => 'E10001',
-        'email'        => 'E10002',
+        'table_name.require'  => 'E10000.table_name Invalid parameter',
+        'table_name.min'      => 'E10001.table_name Parameter Beyond The Scope',
+        'table_name.max'      => 'E10001.table_name Parameter Beyond The Scope',
+        'table_name.alphaDash'=> 'E10002.table_name Parameter Formatting Error',
+        'json_limit.require'  => 'E10000.json_limit Invalid parameter',
+        'json_limit.min'      => 'E10001.json_limit Parameter Beyond The Scope',
+        'json_limit.max'      => 'E10001.json_limit Parameter Beyond The Scope',
     ];
 }

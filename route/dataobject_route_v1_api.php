@@ -62,3 +62,21 @@ Route::post(
     ':v/dataobject_module/imageobject_route',
     'dataobject_module/:v.controller.ImageobjectController/imageobjectPost'
 );
+
+/**
+ * 传值方式 : GET
+ * 路由功能 : 获取图片
+ */
+Route::get(
+    ':v/dataobject_module/imageobject_route',
+    'dataobject_module/:v.controller.ImageobjectController/imageobjectGet'
+);
+
+/**
+ * 传值方式 : DELETE
+ * 路由功能 : 删除图片
+ */
+Route::delete(
+    ':v/dataobject_module/imageobject_route',
+    'dataobject_module/:v.controller.ImageobjectController/imageobjectDelete'
+);

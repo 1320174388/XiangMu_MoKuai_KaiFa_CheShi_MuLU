@@ -45,4 +45,21 @@ class ImageobjectLibrary
         // TODO : 返回函数输出数据
         return \RSD::returnData('','',false);
     }
+
+    /**
+     * 名  称 : imageobjectLibDelete()
+     * 功  能 : 删除图片函数类
+     * 变  量 : --------------------------------------
+     * 输  入 : (String) $delete['table_name'] => '数据表名';
+     * 输  入 : (String) $delete['images_id']  => '图片ID';
+     * 输  出 : ['code'=>'错误码','msg'=>'提示信息','data'=>'返回数据']
+     * 创  建 : 2018/12/04 09:53
+     */
+    public function imageobjectLibDelete($delete)
+    {
+        // TODO : 执行函数处理逻辑
+        
+        // TODO : 返回函数输出数据
+        return \RSD::returnData('','',false);
+    }
 }

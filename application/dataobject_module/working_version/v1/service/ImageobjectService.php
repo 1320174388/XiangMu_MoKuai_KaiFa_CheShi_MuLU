@@ -121,12 +121,69 @@ class ImageobjectService
         if (!$validate->scene('edit')->check($get)) {
             return \RSD::returnData($validate->getError(),'',false);
         }
+
+        // 转换表名为小写
+        $post['table_name'] = strtolower($get['table_name']);
+
+        // 验证 json_limit 数据是否正确
+        if(strtoupper($get['json_limit'])!=='NOT'){
+            $this->isSetJson('json_limit',$get);
+        }else{
+            $get['json_limit'] = 'NOT';
+        }
         
         // 实例化Dao层数据类
         $imageobjectDao = new ImageobjectDao();
         
         // 执行Dao层逻辑
         $res = $imageobjectDao->imageobjectSelect($get);
+        
+        // 处理函数返回值
+        return \RSD::wxReponse($res,'D');
+    }
+
+    /**
+     * 验证 json 数据是否正确
+     */
+    private function isSetJson($jsonName,&$data)
+    {
+        if(!json_decode($data[$jsonName],true)){
+            die(\RSD::wxReponse(
+                \RSD::returnData(
+                    'E10002.'.$jsonName.' Parameter Formatting Error','', false
+                ),'S'
+            ));
+        }
+        $data[$jsonName] = json_decode($data[$jsonName],true);
+    }
+
+    /**
+     * 名  称 : imageobjectDel()
+     * 功  能 : 删除图片逻辑
+     * 变  量 : --------------------------------------
+     * 输  入 : (String) $delete['table_name'] => '数据表名';
+     * 输  入 : (String) $delete['images_id']  => '图片ID';
+     * 输  出 : ['code'=>'错误码','msg'=>'提示信息','data'=>'返回数据']
+     * 创  建 : 2018/12/04 09:53
+     */
+    public function imageobjectDel($delete)
+    {
+        // 实例化验证器代码
+        $validate  = new ImageobjectValidateDelete();
+        
+        // 验证数据
+        if (!$validate->scene('edit')->check($delete)) {
+            return \RSD::returnData($validate->getError(),'',false);
+        }
+
+        // 转换表名为小写
+        $post['table_name'] = strtolower($delete['table_name']);
+        
+        // 实例化Dao层数据类
+        $imageobjectDao = new ImageobjectDao();
+        
+        // 执行Dao层逻辑
+        $res = $imageobjectDao->imageobjectDelete($delete);
         
         // 处理函数返回值
         return \RSD::wxReponse($res,'D');

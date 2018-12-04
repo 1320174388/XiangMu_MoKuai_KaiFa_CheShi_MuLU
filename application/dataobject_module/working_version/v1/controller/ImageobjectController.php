@@ -61,4 +61,28 @@ class ImageobjectController extends Controller
         // 处理函数返回值
         return \RSD::wxReponse($res,'S');
     }
+
+    /**
+     * 名  称 : imageobjectDelete()
+     * 功  能 : 删除图片接口
+     * 变  量 : --------------------------------------
+     * 输  入 : (String) $delete['table_name'] => '数据表名';
+     * 输  入 : (String) $delete['images_id']  => '图片ID';
+     * 输  出 : {"errNum":0,"retMsg":"提示信息","retData":true}
+     * 创  建 : 2018/12/04 09:53
+     */
+    public function imageobjectDelete(\think\Request $request)
+    {
+        // 实例化Service层逻辑类
+        $imageobjectService = new ImageobjectService();
+        
+        // 获取传入参数
+        $delete = $request->delete();
+        
+        // 执行Service逻辑
+        $res = $imageobjectService->imageobjectDel($delete);
+        
+        // 处理函数返回值
+        return \RSD::wxReponse($res,'S');
+    }
 }
