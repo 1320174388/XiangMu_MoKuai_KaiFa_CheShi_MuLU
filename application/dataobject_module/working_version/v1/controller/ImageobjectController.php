@@ -37,4 +37,28 @@ class ImageobjectController extends Controller
         // 处理函数返回值
         return \RSD::wxReponse($res,'S');
     }
+
+    /**
+     * 名  称 : imageobjectGet()
+     * 功  能 : 获取图片接口
+     * 变  量 : --------------------------------------
+     * 输  入 : (String) $get['table_name']  => '数据表名';
+     * 输  入 : (String) $get['json_limit']  => '分页字段';
+     * 输  出 : {"errNum":0,"retMsg":"请求成功","retData":"请求数据"}
+     * 创  建 : 2018/12/04 09:42
+     */
+    public function imageobjectGet(\think\Request $request)
+    {
+        // 实例化Service层逻辑类
+        $imageobjectService = new ImageobjectService();
+        
+        // 获取传入参数
+        $get = $request->get();
+        
+        // 执行Service逻辑
+        $res = $imageobjectService->imageobjectShow($get);
+        
+        // 处理函数返回值
+        return \RSD::wxReponse($res,'S');
+    }
 }

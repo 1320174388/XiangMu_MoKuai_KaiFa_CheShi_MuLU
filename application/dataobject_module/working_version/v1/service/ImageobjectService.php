@@ -102,4 +102,33 @@ class ImageobjectService
         // 获取 20160820/42a79759f284b767dfcb2a0197904287.jpg
         return '/'.$fileDir.'/'.$info->getSaveName();
     }
+
+    /**
+     * 名  称 : imageobjectShow()
+     * 功  能 : 获取图片逻辑
+     * 变  量 : --------------------------------------
+     * 输  入 : (String) $get['table_name']  => '数据表名';
+     * 输  入 : (String) $get['json_limit']  => '分页字段';
+     * 输  出 : ['code'=>'错误码','msg'=>'提示信息','data'=>'返回数据']
+     * 创  建 : 2018/12/04 09:42
+     */
+    public function imageobjectShow($get)
+    {
+        // 实例化验证器代码
+        $validate  = new ImageobjectValidateGet();
+        
+        // 验证数据
+        if (!$validate->scene('edit')->check($get)) {
+            return \RSD::returnData($validate->getError(),'',false);
+        }
+        
+        // 实例化Dao层数据类
+        $imageobjectDao = new ImageobjectDao();
+        
+        // 执行Dao层逻辑
+        $res = $imageobjectDao->imageobjectSelect($get);
+        
+        // 处理函数返回值
+        return \RSD::wxReponse($res,'D');
+    }
 }

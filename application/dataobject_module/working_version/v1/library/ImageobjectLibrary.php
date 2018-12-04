@@ -28,4 +28,21 @@ class ImageobjectLibrary
         // TODO : 返回函数输出数据
         return \RSD::returnData('','',false);
     }
+
+    /**
+     * 名  称 : imageobjectLibGet()
+     * 功  能 : 获取图片函数类
+     * 变  量 : --------------------------------------
+     * 输  入 : (String) $get['table_name']  => '数据表名';
+     * 输  入 : (String) $get['json_limit']  => '分页字段';
+     * 输  出 : ['code'=>'错误码','msg'=>'提示信息','data'=>'返回数据']
+     * 创  建 : 2018/12/04 09:42
+     */
+    public function imageobjectLibGet($get)
+    {
+        // TODO : 执行函数处理逻辑
+        
+        // TODO : 返回函数输出数据
+        return \RSD::returnData('','',false);
+    }
 }
