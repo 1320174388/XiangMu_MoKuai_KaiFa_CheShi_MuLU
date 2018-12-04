@@ -122,9 +122,13 @@ class ImageobjectDao implements ImageobjectInterface
             $image2 = clone($imageObject);
             // 验证要删除的图片是否存在
             $image1 = $image1->find();
-            if(empty($image1)) \RSD::JsonDie(
+            if(empty($image1)){ \RSD::JsonDie(
                 'E40300.images_id Primary Key Does Not Exist, Delete Failed'
-            );
+            );}else{
+                if (is_file('.'.$image1['image_url'])){
+                    unlink('.'.$image1['image_url']);
+                }
+            };
 
             $image2->delete();
         }catch (\Exception $e){

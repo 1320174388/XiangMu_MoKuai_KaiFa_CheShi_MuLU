@@ -175,9 +175,6 @@ class ImageobjectService
         if (!$validate->scene('edit')->check($delete)) {
             return \RSD::returnData($validate->getError(),'',false);
         }
-
-        // 转换表名为小写
-        $post['table_name'] = strtolower($delete['table_name']);
         
         // 实例化Dao层数据类
         $imageobjectDao = new ImageobjectDao();
