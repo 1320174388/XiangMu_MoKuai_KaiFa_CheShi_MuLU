@@ -10,5 +10,5 @@
 // +----------------------------------------------------------------------
 
 Route::rule('/', function () {
-    return returnResponse(404,'没有数据');
+    return \RSD::returnJson('E40400');
 });

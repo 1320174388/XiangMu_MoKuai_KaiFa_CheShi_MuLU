@@ -441,6 +441,8 @@ class ExceptionCodeConfig
     const E40201 = 'Data Unchanged, Modify Failed.';
     // TODO : E40300 -> 要删除的主键不存在
     const E40300 = 'Primary Key Does Not Exist, Delete Failed.';
+    // TODO : E40400 -> 默认页面找不到错误
+    const E40400 = 'Page cannot be found';
     // TODO : S00001 -> 代码执行失败或系统超时
     const S00001 = 'System Error.';
 }
