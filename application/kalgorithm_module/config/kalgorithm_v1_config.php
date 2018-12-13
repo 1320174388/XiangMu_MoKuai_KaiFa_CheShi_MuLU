@@ -10,6 +10,7 @@
  */
 
 return [
+
     // TODO : 定义标识符
     "identifier" => [
         "plate_number"      =>  "车牌号",
@@ -27,5 +28,13 @@ return [
         "user_sex"          =>  "用户性别",
         "user_phone"        =>  "用户联系电话",
         "user_address"      =>  "用户地址"
-    ]
+    ],
+
+    // TODO : 定义数字属性
+    "totalDifference" => [
+        "payment_time"      =>  "车牌发放时间",
+        "license_number"    =>  "车辆号",
+        "displacement"      =>  "车辆排量",
+    ],
+
 ];
