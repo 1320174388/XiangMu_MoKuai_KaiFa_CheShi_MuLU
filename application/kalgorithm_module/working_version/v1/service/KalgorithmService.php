@@ -61,23 +61,23 @@ class KalgorithmService
      */
     private function processingData($get, &$dataArr)
     {
-        // TODO : 隐藏标识信息
-        $this->hideListData($get, $dataArr);
-
         // TODO : 生成分类树
         $tree   = $this->generateClassTree($get, $dataArr);
 
-        // TODO : 获取所有属性总总差值
-        $dValue = $this->totalDifference($dataArr);
+        // TODO : 获取所有属性总差值
+        $valNum = $this->totalDifference($dataArr);
 
         // TODO : 获取分类树层级数量
-        $treeN  = $this->hierarchyQuantity($tree);
+        $treeNu = $this->hierarchyQuantity($tree);
 
-        // TODO : 随机选择一条记录
-        $data = $this->randRecord($dataArr);
+        // TODO : 聚类处理
+        $data = $this->clustering($get['k_number'], $dataArr, $tree, $valNum, $treeNu);
+
+        // TODO : 隐藏标识信息
+        $this->hideListData($get, $data);
 
         // TODO : 打印数据
-        die(json_encode($tree,320));
+        die(json_encode($data,320));
     }
 
     /**
@@ -131,54 +131,141 @@ class KalgorithmService
     private function generateClassTree($get, &$dataArr)
     {
         // TODO : 定义分类树
-        return  ['root'=>[
+        $tree =  [
+            [
+                'id' => 1,
+                'pid' => 0,
+                'attr' => 'tree_root',
+                'pach' => 1
+            ]
+        ];
 
-            // 写入车牌号分类子树
-            'plate_number'     => $this->subtree($dataArr, function($val) {
-                return explode(' ', $val['plate_number'])[0];
-            }),
+        // TODO : 写入车牌号分类子树
+        $tree = array_merge($tree, $this->subtree(
 
-            // 写入汽车类型分类子树
-            'license_type'     => $this->subtree($dataArr, function($val) {
-                return $val['license_type'];
-            }),
+            $tree, 'plate_number', $dataArr, function($val, $name) {
 
-            // 写入汽车颜色分类子树
-            'license_color'    => $this->subtree($dataArr, function($val) {
-                return $val['license_color'];
-            }),
+                return explode(' ', $val[$name])[0];
 
-            // 写入生产厂分类子树
-            'production_plant' => $this->subtree($dataArr, function($val) {
-                return $val['production_plant'];
-            }),
+            },function(&$size, $name, $val, $n, $pid){
 
-            // 写入身份证分类子树
-            'id_number'        => $this->subtree($dataArr, function($val) {
-                return substr($val['id_number'],0,6);
-            }),
+                return $this->treeArray($size, $name, $val, $n, $pid);
 
-            // 写入用户性别分类子树
-            'user_sex'         => $this->subtree($dataArr, function($val) {
-                return $val['user_sex'];
-            }),
+            })
 
-            // 写入联系电话分类子树
-            'user_phone'        => $this->subtree($dataArr, function($val) {
-                return substr($val['user_phone'],0,3);
-            }),
+        );
 
-            // 写入地址信息分类子树
-            'user_address'      => $this->subtree($dataArr, function($val) {
-                return substr($val['user_address'],0,3);
-            }),
+        // TODO : 写入汽车类型分类子树
+        $tree = array_merge($tree, $this->subtree(
 
-        ]];
+            $tree, 'license_type', $dataArr, function($val, $name) {
+
+                return $val[$name];
+
+            },function(&$size, $name, $val, $n, $pid){
+
+                return $this->treeArray($size, $name, $val, $n, $pid);
+
+            })
+
+        );
+
+        // TODO : 写入汽车颜色分类子树
+        $tree = array_merge($tree, $this->subtree(
+
+            $tree, 'license_color', $dataArr, function($val, $name) {
+
+                return $val[$name];
+
+            },function(&$size, $name, $val, $n, $pid){
+
+                return $this->treeArray($size, $name, $val, $n, $pid);
+
+            })
+
+        );
+
+        // TODO : 写入生产厂分类子树
+        $tree = array_merge($tree, $this->subtree(
+
+            $tree, 'production_plant', $dataArr, function($val, $name) {
+
+                return $val[$name];
+
+            },function(&$size, $name, $val, $n, $pid){
+
+                return $this->treeArray($size, $name, $val, $n, $pid);
+
+            })
+
+        );
+
+        // TODO : 写入身份证分类子树
+        $tree = array_merge($tree, $this->subtree(
+
+            $tree, 'id_number', $dataArr, function($val, $name) {
+
+                return substr($val[$name],0,6);
+
+            },function(&$size, $name, $val, $n, $pid){
+
+                return $this->treeArray($size, $name, $val, $n, $pid);
+
+            })
+
+        );
+
+        // TODO : 写入用户性别分类子树
+        $tree = array_merge($tree, $this->subtree(
+
+            $tree, 'user_sex', $dataArr, function($val, $name) {
+
+                return $val[$name];
+
+            },function(&$size, $name, $val, $n, $pid){
+
+                return $this->treeArray($size, $name, $val, $n, $pid);
+
+            })
+
+        );
+
+        // TODO : 写入用户性别分类子树
+        $tree = array_merge($tree, $this->subtree(
+
+            $tree, 'user_phone', $dataArr, function($val, $name) {
+
+                return substr($val[$name],0,3);
+
+            },function(&$size, $name, $val, $n, $pid){
+
+                return $this->treeArray($size, $name, $val, $n, $pid);
+
+            })
+
+        );
+
+        // TODO : 写入地址信息分类子树
+        $tree = array_merge($tree, $this->subtree(
+
+            $tree, 'user_address', $dataArr, function($val, $name) {
+
+                return substr($val[$name],0, 9);
+
+            },function(&$size, $name, $val, $n, $pid){
+
+                return $this->treeArray($size, $name, $val, $n, $pid);
+
+            })
+
+        );
+
+        die( json_encode( $tree ) );
     }
 
     /**
      * 名  称 : totalDifference()
-     * 功  能 : 获取总差值
+     * 功  能 : 获取差值
      * 变  量 : --------------------------------------
      * 输  入 : (Array)  $dataArr  =>  '被处理数据';
      * 输  出 : (Array)  $totalNum =>  '总差值';
@@ -244,22 +331,126 @@ class KalgorithmService
      * 名  称 : subtree()
      * 功  能 : 获取分类子树
      * 变  量 : --------------------------------------
+     * 输  入 : (Array)  $tree     =>  '分类树';
+     * 输  出 : (String) $name     =>  '属性';
      * 输  入 : (Array)  $dataArr  =>  '被处理数据';
      * 输  出 : (Array)  $treeArr  =>  '子树数组';
      * 创  建 : 2018/12/13 11:57
      */
-    private function subtree($dataArr, $function)
+    private function subtree($tree, $name, $dataArr, $function, $func)
     {
         // TODO : 遍历所有数据
         foreach ( $dataArr as $key => $val )
         {
             // 写入数据到数组
-            $treeArr[] = $function($val);
+            $treeArr[] = $function($val, $name);
         }
 
         // TODO : 最后处理数据，排序,返回数据
         $treeArr = array_unique( $treeArr );
-        sort( $treeArr ); return $treeArr;
+        sort( $treeArr );
+
+        // TODO : 获取数组长度
+        $size = count( $tree );
+
+        // TODO : 遍历新数据
+        $n = 1;
+        $treeArrs = [];
+        $pid = $size+1;
+        if($n == 1){
+            $treeArrs[] = [
+                'id' => ++$size,
+                'pid' => 1,
+                'attr' => $name,
+                'pach' => 2
+            ];
+        }
+        foreach ( $treeArr as $key => $val )
+        {
+            // 写入数据到数组
+            $treeArrs[] = $func($size, $name, $val, $n, $pid);
+            $n += 1;
+        }
+
+        return $treeArrs;
+    }
+
+    /**
+     * 名  称 : treeArray()
+     * 功  能 : 获取分类子树数组
+     * 变  量 : --------------------------------------
+     * 输  入 : (String)  $size  =>  '长度';
+     * 输  出 : (String)  $name  =>  '属性';
+     * 输  出 : (String)  $value =>  '属性值';
+     * 输  出 : (String)  $n     =>  '判断条件';
+     * 创  建 : 2018/12/13 11:57
+     */
+    private function treeArray(&$size, $name, $value, $n, $pid)
+    {
+        return [
+            'id' => ++$size,
+            'pid' => $pid,
+            'attr' => $value,
+            'pach' => 3
+        ];
+    }
+
+
+
+    /**
+     * 名  称 : clustering()
+     * 功  能 : 聚类处理
+     * 变  量 : --------------------------------------
+     * 输  入 : (Number) $kn       =>  '聚类K值';
+     * 输  入 : (Array)  $dataArr  =>  '被处理数据';
+     * 输  出 : (Array)  $treeArr  =>  '分类树数组';
+     * 输  出 : (Array)  $valNum   =>  '属性总差值';
+     * 输  出 : (Array)  $treeNu   =>  '分类树层数';
+     * 输  出 : --------------------------------------
+     * 创  建 : 2018/12/13 11:38
+     */
+    private function clustering($kn, $dataArr, $treeArr, $valNum, $treeNu)
+    {
+        // TODO : 随机选择一条记录
+        $data1 =  $this->randRecord($dataArr);
+
+        // TODO : 随机选择一条记录
+        $data2 =  $this->randRecord($dataArr);
+
+        // TODO : 判断当前数据长度
+        if( $kn < count($dataArr) )
+        {
+            // TODO : 添加到簇中
+            $r = [ $data1, $data2 ];
+
+            // TODO : 获取簇差值
+            $rDiff = $this->totalDifference($r);
+
+            // TODO : 获取分类层级
+
+
+            die( (string)$rDiff );
+
+            return $r;
+        }
+
+        // TODO : 暂时返回所有数据
+        return $dataArr;
+
+    }
+
+    /**
+     * 名  称 : hierarchySubtree()
+     * 功  能 : 获取分类属性子树层级
+     * 变  量 : --------------------------------------
+     * 输  出 : (Array)  $treeArr  =>  '分类树数组';
+     * 输  出 : (Array)  $r        =>  '簇数组';
+     * 输  出 : --------------------------------------
+     * 创  建 : 2018/12/14 22:49
+     */
+    private function hierarchySubtree($treeArr, $r)
+    {
+
     }
 
     /**
