@@ -451,12 +451,6 @@ class KalgorithmService
      */
     private function clusteringFunc2($kn, &$dataArr, $treeArr, $valNum, $treeNu)
     {
-        if(count($dataArr)==0){
-            return [];
-        }
-
-        sort($dataArr);
-
         // TODO : 判断当前数据长度
         if( $kn < count($dataArr) )
         {
