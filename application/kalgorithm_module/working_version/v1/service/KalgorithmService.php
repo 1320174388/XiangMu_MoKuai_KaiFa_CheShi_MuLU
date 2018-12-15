@@ -435,10 +435,15 @@ class KalgorithmService
      */
     private function clustering($kn, &$dataArr, $treeArr, $valNum, $treeNu)
     {
-        // 处理聚类函数
-        $ES = $this->clusteringFunc2($kn, $dataArr, $treeArr, $valNum, $treeNu);
-
-        return $ES;
+        $arrayData = [];
+        $ns = 0;
+        // TODO : 循环聚类
+        while ( count($dataArr) >= $kn )
+        {
+            $arrayData[$ns] = $this->clusteringFunc2($kn, $dataArr, $treeArr, $valNum, $treeNu);
+            $ns++;
+        }
+        return $arrayData;
     }
 
     /**
@@ -452,7 +457,7 @@ class KalgorithmService
     private function clusteringFunc2($kn, &$dataArr, $treeArr, $valNum, $treeNu)
     {
         // TODO : 判断当前数据长度
-        if( $kn < count($dataArr) )
+        if( $kn <= count($dataArr) )
         {
             // TODO : 随机选择一条记录
             $r1 =  $this->randRecord($dataArr);
