@@ -143,9 +143,9 @@ class KalgorithmService
         // TODO : 写入车牌号分类子树
         $tree = array_merge($tree, $this->subtree(
 
-            $tree, 'plate_number', $dataArr, function($val, $name) {
+            $tree, 'plate_number', $dataArr, function(&$val, $name) {
 
-                return explode(' ', $val[$name])[0];
+                $val[$name] = explode(' ', $val[$name])[0];
 
             },function(&$size, $name, $val, $n, $pid){
 
@@ -158,9 +158,7 @@ class KalgorithmService
         // TODO : 写入汽车类型分类子树
         $tree = array_merge($tree, $this->subtree(
 
-            $tree, 'license_type', $dataArr, function($val, $name) {
-
-                return $val[$name];
+            $tree, 'license_type', $dataArr, function(&$val, $name) {
 
             },function(&$size, $name, $val, $n, $pid){
 
@@ -173,9 +171,7 @@ class KalgorithmService
         // TODO : 写入汽车颜色分类子树
         $tree = array_merge($tree, $this->subtree(
 
-            $tree, 'license_color', $dataArr, function($val, $name) {
-
-                return $val[$name];
+            $tree, 'license_color', $dataArr, function(&$val, $name) {
 
             },function(&$size, $name, $val, $n, $pid){
 
@@ -188,9 +184,7 @@ class KalgorithmService
         // TODO : 写入生产厂分类子树
         $tree = array_merge($tree, $this->subtree(
 
-            $tree, 'production_plant', $dataArr, function($val, $name) {
-
-                return $val[$name];
+            $tree, 'production_plant', $dataArr, function(&$val, $name) {
 
             },function(&$size, $name, $val, $n, $pid){
 
@@ -203,24 +197,9 @@ class KalgorithmService
         // TODO : 写入身份证分类子树
         $tree = array_merge($tree, $this->subtree(
 
-            $tree, 'id_number', $dataArr, function($val, $name) {
+            $tree, 'id_number', $dataArr, function(&$val, $name) {
 
-                return substr($val[$name],0,6);
-
-            },function(&$size, $name, $val, $n, $pid){
-
-                return $this->treeArray($size, $name, $val, $n, $pid);
-
-            })
-
-        );
-
-        // TODO : 写入用户性别分类子树
-        $tree = array_merge($tree, $this->subtree(
-
-            $tree, 'user_sex', $dataArr, function($val, $name) {
-
-                return $val[$name];
+                $val[$name] = substr($val[$name],0,6);
 
             },function(&$size, $name, $val, $n, $pid){
 
@@ -233,9 +212,22 @@ class KalgorithmService
         // TODO : 写入用户性别分类子树
         $tree = array_merge($tree, $this->subtree(
 
-            $tree, 'user_phone', $dataArr, function($val, $name) {
+            $tree, 'user_sex', $dataArr, function(&$val, $name) {
 
-                return substr($val[$name],0,3);
+            },function(&$size, $name, $val, $n, $pid){
+
+                return $this->treeArray($size, $name, $val, $n, $pid);
+
+            })
+
+        );
+
+        // TODO : 写入用户性别分类子树
+        $tree = array_merge($tree, $this->subtree(
+
+            $tree, 'user_phone', $dataArr, function(&$val, $name) {
+
+                $val[$name] = substr($val[$name],0,3);
 
             },function(&$size, $name, $val, $n, $pid){
 
@@ -248,9 +240,9 @@ class KalgorithmService
         // TODO : 写入地址信息分类子树
         $tree = array_merge($tree, $this->subtree(
 
-            $tree, 'user_address', $dataArr, function($val, $name) {
+            $tree, 'user_address', $dataArr, function(&$val, $name) {
 
-                return substr($val[$name],0, 9);
+                $val[$name] = substr($val[$name],0, 6);
 
             },function(&$size, $name, $val, $n, $pid){
 
@@ -260,7 +252,7 @@ class KalgorithmService
 
         );
 
-        die( json_encode( $tree ) );
+        return $tree;
     }
 
     /**
@@ -274,30 +266,62 @@ class KalgorithmService
     private function totalDifference($dataArr, $totalNum = [])
     {
         // TODO : 获取车牌发放时间年份
-        $paymentTimeArr = $this->subtree($dataArr, function($val) {
-            $str = explode('.', $val['payment_time'])[0];
-            return (int)$str;
-        });
+        $paymentTimeArr = $this->subtree(
+
+            [], 'payment_time', $dataArr, function(&$val, $name) {
+
+                $val[$name] = explode('.', $val[$name])[0];
+
+            },function(&$size, $name, $val, $n, $pid){
+
+                return $this->treeArray($size, $name, $val, $n, $pid);
+
+            }
+        );
 
         // TODO : 获取车牌车辆号
-        $licenseNumberArr = $this->subtree($dataArr, function($val) {
-            return $val['license_number'];
-        });
+        $licenseNumberArr = $this->subtree(
+
+            [], 'license_number', $dataArr, function(&$val, $name) {
+
+            },function(&$size, $name, $val, $n, $pid){
+
+                return $this->treeArray($size, $name, $val, $n, $pid);
+
+            }
+        );
 
         // TODO : 获取车辆排量
-        $displacementArr = $this->subtree($dataArr, function($val) {
-            return $val['displacement'];
-        });
+        $displacementArr = $this->subtree(
+
+            [], 'displacement', $dataArr, function(&$val, $name) {
+
+            },function(&$size, $name, $val, $n, $pid){
+
+                return $this->treeArray($size, $name, $val, $n, $pid);
+
+            }
+        );
 
         // TODO : 合并数组
         $totalNum = array_merge( $paymentTimeArr, $licenseNumberArr );
         $totalNum = array_merge( $totalNum, $displacementArr );
 
+        // TODO : 循环处理数据
+        $numberArr = [];
+        foreach ($totalNum as $k => $v)
+        {
+            if( $v['pach'] == 3 )
+            {
+                $numberArr[] = (float) $v['attr'];
+            }
+        }
+
         // TODO : 合数组排序
-        sort( $totalNum );
+        sort( $numberArr );
 
         // TODO : 返回总差值
-        return (int) bcsub( $totalNum[count($totalNum)-1], $totalNum[0] );
+        return (float) bcsub( $numberArr[count($numberArr)-1], $numberArr[0], 6 );
 
     }
 
@@ -311,19 +335,17 @@ class KalgorithmService
      */
     private function hierarchyQuantity( $tree, $treeNum=0 )
     {
-        if(is_array($tree))
+        // 获取每个属性的层级数
+        $numArr = [];
+        foreach ( $tree as $k => $v )
         {
-            $treeNum++;
-            $arr = [];
-            // 循环获取层级数量
-            foreach( $tree as $k => $v )
-            {
-                $arr[] = $this->hierarchyQuantity($v, $treeNum);
-            }
-            rsort($arr);
-            $treeNum = $arr[0];
+            $numArr[] = $v['pach'];
         }
-        return (int) $treeNum;
+        // 倒序排序
+        rsort($numArr);
+
+        // 返回最大值
+        return $numArr[0];
     }
 
 
@@ -340,10 +362,11 @@ class KalgorithmService
     private function subtree($tree, $name, $dataArr, $function, $func)
     {
         // TODO : 遍历所有数据
-        foreach ( $dataArr as $key => $val )
+        foreach ( $dataArr as $key => &$val )
         {
             // 写入数据到数组
-            $treeArr[] = $function($val, $name);
+            $function($val, $name);
+            $treeArr[] = $val[$name];
         }
 
         // TODO : 最后处理数据，排序,返回数据
@@ -395,8 +418,6 @@ class KalgorithmService
         ];
     }
 
-
-
     /**
      * 名  称 : clustering()
      * 功  能 : 聚类处理
@@ -409,29 +430,35 @@ class KalgorithmService
      * 输  出 : --------------------------------------
      * 创  建 : 2018/12/13 11:38
      */
-    private function clustering($kn, $dataArr, $treeArr, $valNum, $treeNu)
+    private function clustering($kn, &$dataArr, $treeArr, $valNum, $treeNu)
     {
-        // TODO : 随机选择一条记录
-        $data1 =  $this->randRecord($dataArr);
-
-        // TODO : 随机选择一条记录
-        $data2 =  $this->randRecord($dataArr);
-
         // TODO : 判断当前数据长度
         if( $kn < count($dataArr) )
         {
-            // TODO : 添加到簇中
-            $r = [ $data1, $data2 ];
+            // TODO : 随机选择一条记录
+            $r1 =  $this->randRecord($dataArr);
 
-            // TODO : 获取簇差值
-            $rDiff = $this->totalDifference($r);
+            // TODO : 定义簇数组
+            $E = [ $r1 ];
 
-            // TODO : 获取分类层级
+            // TODO : 遍历获取所有数据，计算差值
+            foreach ( $dataArr as $k => $v )
+            {
+                // TODO : 添加到簇中
+                $E[]  = $v;
 
+                // TODO : 获取数字属性差值
+                $eDiff = $this->totalDifference($E);
 
-            die( (string)$rDiff );
+                // TODO : 泛化处理所有数据
+                $this->generalization($E);
 
-            return $r;
+                // TODO : 获取分类属性层数
+                $eTree = $this->hierarchySubtree($treeArr, $E);
+
+            }
+
+            return $eTree;
         }
 
         // TODO : 暂时返回所有数据
@@ -440,16 +467,238 @@ class KalgorithmService
     }
 
     /**
+     * 名  称 : generalization()
+     * 功  能 : 泛化处理所有数据
+     * 变  量 : --------------------------------------
+     * 输  出 : (Array)  $E        =>  '簇数组';
+     * 输  出 : --------------------------------------
+     * 创  建 : 2018/12/15 10:32
+     */
+    private function generalization(&$E)
+    {
+        // TODO : 遍历所有数据
+        foreach ($E as $key => &$val)
+        {
+            // TODO : 泛化处理车牌号
+            $val['plate_number'] = explode(' ', $val['plate_number'])[0];
+
+            // TODO : 泛化处理身份证
+            $val['id_number'] = substr($val['id_number'],0,6);
+
+            // TODO : 泛化处理地址信息
+            $val['user_address'] = substr($val['user_address'],0, 6);
+
+            // TODO : 泛化处理车牌发放时间年份
+            $val['payment_time'] = (int) explode('.', $val["payment_time"])[0];
+
+        }
+    }
+
+    /**
      * 名  称 : hierarchySubtree()
      * 功  能 : 获取分类属性子树层级
      * 变  量 : --------------------------------------
      * 输  出 : (Array)  $treeArr  =>  '分类树数组';
-     * 输  出 : (Array)  $r        =>  '簇数组';
+     * 输  出 : (Array)  $E        =>  '簇数组';
      * 输  出 : --------------------------------------
      * 创  建 : 2018/12/14 22:49
      */
-    private function hierarchySubtree($treeArr, $r)
+    private function hierarchySubtree($treeArr, &$E)
     {
+        // TODO : 定义判断用数组
+        $root = [
+            'plate_number'     => [],
+            'license_type'     => [],
+            'license_color'    => [],
+            'production_plant' => [],
+            'id_number'        => [],
+            'user_sex'         => [],
+            'user_phone'       => [],
+            'user_address'     => [],
+        ];
+
+        // TODO : 遍历所有数据
+        foreach ($E as $key => &$val)
+        {
+            $root['plate_number'][]     = $val['plate_number'];
+            $root['license_type'][]     = $val['license_type'];
+            $root['license_color'][]    = $val['license_color'];
+            $root['production_plant'][] = $val['production_plant'];
+            $root['id_number'][]        = $val['id_number'];
+            $root['user_sex'][]         = $val['user_sex'];
+            $root['user_phone'][]       = $val['user_phone'];
+            $root['user_address'][]     = $val['user_address'];
+        }
+
+        // TODO : 计算层级
+        foreach( $root as $v )
+        {
+            return $this->hierarchicalData($treeArr, $v);
+        }
+    }
+
+    /**
+     * 名  称 : hierarchicalData()
+     * 功  能 : 获取当前所有分类属性的层级数
+     * 变  量 : --------------------------------------
+     * 输  入 : (Array)  $treeArr  => '被处理数据';
+     * 输  入 : (Array)  $valArr   => '被处理数据';
+     * 输  出 : --------------------------------------
+     * 创  建 : 2018/12/13 11:38
+     */
+    private function hierarchicalData($treeArr, $valArr)
+    {
+        // 获取分类属性在分类树中所在的位置
+        $valArrs = [];
+        foreach ( $valArr as $k => $v )
+        {
+            $valArrs[] = $this->retrieval($treeArr, 'attr', $v);
+        }
+
+        // 判断层级是否一样
+        if( $this->isSameLevel($valArrs)['type'] )
+        {
+            // 获取最低层数据
+            $data = $this->isSameLevel($valArrs)['data'];
+
+            foreach( $data as $k => $v )
+            {
+                // 获取当前所有分类属性的层级数
+                $valArrs2 =  $this->minimalSubtree($treeArr, $v);
+                $valArrs = array_merge($valArrs,$valArrs2);
+                return $valArrs;
+            }
+
+        }
+
+        // 保存所有层级数
+        $pachArr = [];
+        // 保存所有父id数
+        $pidArr  = [];
+
+        foreach ( $valArrs as $k => $v )
+        {
+            $pachArr[] = $v['pach'];
+            $pidArr[]  = $v['pid'];
+        }
+
+        $box = array_unique($pachArr);
+
+        if( 1 !== count( $box ) )
+        {
+            return $this->minimalSubtree($treeArr, $v);
+        }
+
+        // 获取顶层数据
+        $data = $this->retrieval($treeArr, 'id', $pidArr[0]);
+
+        // 返回所有层数
+        return $this->getSubtreeNumber($treeArr, $data);
+
+    }
+
+    /**
+     * 名  称 : getSubtreeNumber()
+     * 功  能 : 获取子树层数
+     * 变  量 : --------------------------------------
+     * 输  入 : (Array)  $tree  => '分类树数组';
+     * 输  入 : (Array)  $data  => '被处理数据';
+     * 输  出 : --------------------------------------
+     * 创  建 : 2018/12/13 11:38
+     */
+    private function getSubtreeNumber($tree, $data, $n=1)
+    {
+        // 获取当前分类节点的子节点
+        $arr = [];
+        // 层数数组
+        $nArr = [];
+
+        foreach ( $tree as $k => $v )
+        {
+            if( $data['id'] ===  $v['pid'] )
+            {
+                $arr[] = $v;
+            }
+        }
+
+        foreach ( $arr as $k => $v )
+        {
+             $nArr[] = $this->getSubtreeNumber($tree, $v, $n+1);
+        }
+
+        if(empty($nArr)){
+            return $n;
+        }
+
+        rsort($nArr);
+
+        return $nArr[0];
+
+    }
+
+    /**
+     * 名  称 : isSameLevel()
+     * 功  能 : 判断层级是否一样
+     * 变  量 : --------------------------------------
+     * 输  入 : (Array)  $treeArr  => '被处理数据';
+     * 输  出 : --------------------------------------
+     * 创  建 : 2018/12/13 11:38
+     */
+    private function isSameLevel (&$valArrs)
+    {
+        $pachArr = [];
+
+        foreach ( $valArrs as $k => $v )
+        {
+            $pachArr[] = $v['pach'];
+        }
+
+        $box = array_unique($pachArr);
+
+        if( 1 === count( $box ) )
+        {
+            return [ 'type' => true, 'data' => [] ];
+        }
+
+        sort($box);
+
+        unset($box[0]);
+
+        $boxArr = [];
+        foreach( $box as $k => $v )
+        {
+            foreach( $valArrs as $k2 =>  $val )
+            {
+                if( $v == $val['pach'] )
+                {
+                    $boxArr[] = $val;
+                    unset($valArrs[$k2]);
+                }
+            }
+        }
+
+        return [ 'type' => false, 'data' => $pachArr ];
+    }
+
+    /**
+     * 名  称 : retrieval()
+     * 功  能 : 检索分类树数据
+     * 变  量 : --------------------------------------
+     * 输  入 : (Array)  $treeArr  => '被处理数据';
+     * 输  入 : (String) $attrName => '检索名称';
+     * 输  入 : (String) $attrVal  => '检索内容';
+     * 输  出 : --------------------------------------
+     * 创  建 : 2018/12/13 11:38
+     */
+    private function retrieval($treeArr, $attrName, $attrVal)
+    {
+        foreach ( $treeArr as $k => $v )
+        {
+            if( $attrVal ===  $v[$attrName] )
+            {
+                return $v;
+            }
+        }
 
     }
 
@@ -466,7 +715,7 @@ class KalgorithmService
         if( !empty($arr) )
         {
             // 获取随机数
-            $num = mt_rand(0,count($arr)-1);
+            $num = mt_rand( 0, ( count($arr)-1 ) );
 
             // 获取数据
             $rowData = $arr[$num];
