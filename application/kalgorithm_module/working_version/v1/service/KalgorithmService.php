@@ -70,11 +70,14 @@ class KalgorithmService
         // TODO : 获取分类树层级数量
         $treeNu = $this->hierarchyQuantity($tree);
 
+        // TODO : 泛化处理所有数据
+        $this->generalization($dataArr);
+
         // TODO : 聚类处理
         $data = $this->clustering($get['k_number'], $dataArr, $tree, $valNum, $treeNu);
 
         // TODO : 隐藏标识信息
-        $this->hideListData($get, $data);
+        $this->hideListData( $get, $data );
 
         // TODO : 打印数据
         die(json_encode($data,320));
@@ -321,7 +324,7 @@ class KalgorithmService
         sort( $numberArr );
 
         // TODO : 返回总差值
-        return (float) bcsub( $numberArr[count($numberArr)-1], $numberArr[0], 6 );
+        return (float) bcsub( $numberArr[count($numberArr)-1], $numberArr[0], 10 );
 
     }
 
@@ -432,6 +435,28 @@ class KalgorithmService
      */
     private function clustering($kn, &$dataArr, $treeArr, $valNum, $treeNu)
     {
+        // 处理聚类函数
+        $ES = $this->clusteringFunc2($kn, $dataArr, $treeArr, $valNum, $treeNu);
+
+        return $ES;
+    }
+
+    /**
+     * 名  称 : clusteringFunc2()
+     * 功  能 : 处理聚类函数
+     * 变  量 : --------------------------------------
+     * 输  出 : (Array)  $E        =>  '簇数组';
+     * 输  出 : --------------------------------------
+     * 创  建 : 2018/12/15 10:32
+     */
+    private function clusteringFunc2($kn, &$dataArr, $treeArr, $valNum, $treeNu)
+    {
+        if(count($dataArr)==0){
+            return [];
+        }
+
+        sort($dataArr);
+
         // TODO : 判断当前数据长度
         if( $kn < count($dataArr) )
         {
@@ -441,29 +466,82 @@ class KalgorithmService
             // TODO : 定义簇数组
             $E = [ $r1 ];
 
-            // TODO : 遍历获取所有数据，计算差值
-            foreach ( $dataArr as $k => $v )
-            {
-                // TODO : 添加到簇中
-                $E[]  = $v;
+            // TODO : 处理聚类函数
+            $E = $this->clusteringFunc($kn, $dataArr, $E, $treeArr, $valNum, $treeNu);
 
-                // TODO : 获取数字属性差值
-                $eDiff = $this->totalDifference($E);
+            // TODO : 返回数据
+            $arras =  $E;
 
-                // TODO : 泛化处理所有数据
-                $this->generalization($E);
-
-                // TODO : 获取分类属性层数
-                $eTree = $this->hierarchySubtree($treeArr, $E);
-
-            }
-
-            return $eTree;
+        }else{
+            // TODO : 返回数据
+            $arras = $dataArr;
         }
 
-        // TODO : 暂时返回所有数据
-        return $dataArr;
+        return $arras;
+    }
 
+    /**
+     * 名  称 : clusteringFunc()
+     * 功  能 : 处理聚类函数
+     * 变  量 : --------------------------------------
+     * 输  出 : (Array)  $E        =>  '簇数组';
+     * 输  出 : --------------------------------------
+     * 创  建 : 2018/12/15 10:32
+     */
+    private function clusteringFunc($kn, &$dataArr, $E, $treeArr, $valNum, $treeNu)
+    {
+        foreach($dataArr as $k => $v){
+
+            $ES  = array_merge(  $E, [$v] );
+
+            // TODO : 获取数字属性差值
+            $eDiff = $this->totalDifference($ES);
+
+            // TODO : 获取分类属性层数
+            $eTree = $this->hierarchySubtree($treeArr, $ES);
+
+            // TODO : 计算数字属性差值
+            $N = ( float ) bcdiv ( $eDiff , $valNum, 10 );
+
+            // TODO : 计算分类属性差值
+            $T = ( float ) bcdiv ( $eTree , $treeNu, 10 );
+
+            // TODO : 求和
+            $H = ( float ) bcadd ( $N, $T,10 );
+
+            $S[] = [
+                'ids' => $k,
+                'num' => $H,
+                'dat' => $v
+            ];
+        }
+
+        // 根据差值进行排序
+        foreach ( $S as $keys => $vals )
+        {
+            foreach ( $S as $keys1 => $vals2 )
+            {
+                if( bccomp ( $S[$keys1]['num'] , $S[$keys]['num'], 10 ) >= 1 )
+                {
+                    $a = $S[$keys];
+                    $S[$keys] = $S[$keys1];
+                    $S[$keys1] = $a;
+                }
+            }
+        }
+
+        unset( $dataArr[ $S[0][ 'ids' ] ] );
+
+        $E = array_merge( $E, [$S[0]['dat']] );
+
+        if( count($E) < $kn )
+        {
+            $ArrS = $this->clusteringFunc($kn, $dataArr, $E, $treeArr, $valNum, $treeNu);
+        }else{
+            $ArrS = $E;
+        }
+
+        return $ArrS;
     }
 
     /**
@@ -712,6 +790,12 @@ class KalgorithmService
      */
     private function randRecord(&$arr)
     {
+        if(count($arr)==0){
+            return [];
+        }
+
+        sort($arr);
+
         if( !empty($arr) )
         {
             // 获取随机数
