@@ -324,7 +324,7 @@ class KalgorithmService
         sort( $numberArr );
 
         // TODO : 返回总差值
-        return (float) bcsub( $numberArr[count($numberArr)-1], $numberArr[0], 10 );
+        return (float) bcsub( $numberArr[count($numberArr)-1], $numberArr[0], 20 );
 
     }
 
@@ -443,8 +443,84 @@ class KalgorithmService
             $arrayData[$ns] = $this->clusteringFunc2($kn, $dataArr, $treeArr, $valNum, $treeNu);
             $ns++;
         }
+
+        // 判断是否还有剩余数据
+        if(!empty($dataArr))
+        {
+            // TODO : 将剩余数据插入到已有聚类中
+            foreach( $dataArr as $k => $v )
+            {
+                $this->dataInsertion($arrayData, $v, $treeArr, $valNum, $treeNu);
+            }
+        }
+
         return $arrayData;
     }
+
+    /**
+     * 名  称 : dataInsertion()
+     * 功  能 : 处理剩余数据插入聚类函数
+     * 变  量 : --------------------------------------
+     * 输  出 : (Array)  $arrayData  =>  '包含所有簇数组的数据集合';
+     * 输  出 : (Array)  $dataVal    =>  '当前要插入的记录';
+     * 输  出 : (Array)  $treeArr    =>  '分类树数组';
+     * 输  出 : (Number) $valNum     =>  '属性总差值';
+     * 输  出 : (Number) $treeNu     =>  '分类树层数';
+     * 输  出 : --------------------------------------
+     * 创  建 : 2018/12/15 10:32
+     */
+    private function dataInsertion(&$arrayData, $dataVal, $treeArr, $valNum, $treeNu)
+    {
+        // 循环所有簇数组
+        foreach($arrayData as $k => &$v)
+        {
+            // 将数据放到簇中
+            $valData = array_merge( $v, [$dataVal] );
+
+            // 获取数字属性差值
+            $eDiff = $this->totalDifference($valData);
+
+            // 获取分类属性层数
+            $eTree = $this->hierarchySubtree($treeArr, $valData);
+
+            // TODO : 计算数字属性差值
+            $N = ( float ) bcdiv ( $eDiff , $valNum, 20 );
+
+            // TODO : 计算分类属性差值
+            $T = ( float ) bcdiv ( $eTree , $treeNu, 20 );
+
+            // TODO : 求和
+            $H = ( float ) bcadd ( $N, $T,10 );
+
+            // TODO : 计算最后的差值
+            $H = ( float ) bcmul ( $N, count($valData),20 );
+
+            // TODO ：保存所有计算后的差值和数据
+            $S[] = [
+                'ids' => $k,
+                'num' => $H,
+                'dat' => $v
+            ];
+        }
+
+        // 根据差值进行排序
+        foreach ( $S as $keys => $vals )
+        {
+            foreach ( $S as $keys1 => $vals2 )
+            {
+                if( bccomp ( $S[$keys1]['num'] , $S[$keys]['num'], 10 ) >= 1 )
+                {
+                    $a = $S[$keys];
+                    $S[$keys] = $S[$keys1];
+                    $S[$keys1] = $a;
+                }
+            }
+        }
+
+        // 将数据放到最小差值簇中
+        $arrayData[$S[0]['ids']] = array_merge( $arrayData[$S[0]['ids']], [ $dataVal ]);
+    }
+
 
     /**
      * 名  称 : clusteringFunc2()
@@ -500,14 +576,18 @@ class KalgorithmService
             $eTree = $this->hierarchySubtree($treeArr, $ES);
 
             // TODO : 计算数字属性差值
-            $N = ( float ) bcdiv ( $eDiff , $valNum, 10 );
+            $N = ( float ) bcdiv ( $eDiff , $valNum, 20 );
 
             // TODO : 计算分类属性差值
-            $T = ( float ) bcdiv ( $eTree , $treeNu, 10 );
+            $T = ( float ) bcdiv ( $eTree , $treeNu, 20 );
 
             // TODO : 求和
-            $H = ( float ) bcadd ( $N, $T,10 );
+            $H = ( float ) bcadd ( $N, $T,20 );
 
+            // TODO : 计算最后的差值
+            $H = ( float ) bcmul ( $N, count($ES),20 );
+
+            // TODO ： 保存所有计算后的差值和数据
             $S[] = [
                 'ids' => $k,
                 'num' => $H,
@@ -515,12 +595,13 @@ class KalgorithmService
             ];
         }
 
+
         // 根据差值进行排序
         foreach ( $S as $keys => $vals )
         {
             foreach ( $S as $keys1 => $vals2 )
             {
-                if( bccomp ( $S[$keys1]['num'] , $S[$keys]['num'], 10 ) >= 1 )
+                if( bccomp ( $S[$keys1]['num'] , $S[$keys]['num'], 20 ) >= 1 )
                 {
                     $a = $S[$keys];
                     $S[$keys] = $S[$keys1];

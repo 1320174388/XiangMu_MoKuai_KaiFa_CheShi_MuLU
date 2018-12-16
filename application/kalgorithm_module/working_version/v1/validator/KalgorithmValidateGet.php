@@ -19,7 +19,7 @@ class KalgorithmValidateGet extends Validate
      * 创  建 : 2018/12/10 11:07
      */
     protected $rule =   [
-        'k_number'         => 'require|number',
+        'k_number'         => 'require|number|between:2,50',
     ];
 
     /**
@@ -30,5 +30,6 @@ class KalgorithmValidateGet extends Validate
     protected $message  =   [
         'k_number.require'          => 'E10000.k_number input error',
         'k_number.number'           => 'E10002.k_number input error',
+        'k_number.between'          => 'E10001.k_number input error',
     ];
 }
